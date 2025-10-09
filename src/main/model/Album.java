@@ -1,42 +1,36 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+
 // the album of photos
 public class Album {
     private String albumName;
-    private Date date;
+    private LocalDate date;
     private ArrayList<Photo> photos;
 
     // EFFECTS: construct a session of photos with date and name recorded
-    public Album() {
+    public Album(String name, LocalDate date2) {
         // stub
     }
 
     // MODIFIES: this
-    // EFFECTS: adds the given photo to the album
-    public ArrayList<Photo> addPhoto() {
+    // EFFECTS: adds the given photo to the album if not already in the album
+    public ArrayList<Photo> addPhoto(Photo p) {
         return photos;
     }
 
     // MODIFIES: this
     // EFFECTS: removes the given photo from the album
-    public ArrayList<Photo> removePhoto() {
+    public ArrayList<Photo> removePhoto(Photo p) {
         return photos;
     }
 
-    // MODIFIES: this
-    // EFFECTS: generate a new classified album based on the common issues from the given album collections
-    public ArrayList<Photo> findCommonPhotos() {
-
-        return photos; // stub
-    }
-
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -48,4 +42,11 @@ public class Album {
         this.photos = photos;
     }
 
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
 }

@@ -1,0 +1,31 @@
+package model;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class TestPhoto {
+    private Photo testPhoto;
+
+    
+    @BeforeEach
+    void runBefore() {
+        testPhoto = new Photo("flower", "a6300", 400, 6.3, 1/400);
+
+    }
+
+    @Test
+    void testConstructor() {
+        assertEquals("flower", testPhoto.getPhotoname());
+        assertEquals("a6300", testPhoto.getCamera());
+        assertEquals(400, testPhoto.getIso());
+        assertEquals(6.3, testPhoto.getAperture());
+        assertEquals(1/400, testPhoto.getShutterspeed());
+
+    }
+
+}

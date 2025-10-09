@@ -4,10 +4,10 @@ public class Photo {
     private String photoname;
     private String camera;
     private String scenedescription;
-    private String reflection;
+    private Reflection reflection;
     private int iso;
-    private int aperture;
-    private int shutterspeed;
+    private double aperture;
+    private double shutterspeed;
     private int score;
     private Boolean reflect;
 
@@ -15,7 +15,7 @@ public class Photo {
 
     // REQUIRES: iso, aperture, shutterspeed> 0
     // EFFECTS: create a photo with information recorded
-    public Photo() {
+    public Photo(String photoname, String camera, int iso, double aperture, double shutterspeed) {
         //stub
     }
 
@@ -32,7 +32,7 @@ public class Photo {
         this.scenedescription = scenedescription;
     }
 
-    public void setReflection(String reflection) {
+    public void setReflection(Reflection reflection) {
         this.reflection = reflection;
     }
 
@@ -76,15 +76,15 @@ public class Photo {
         return scenedescription;
     }
 
-    public String getReflection() {
+    public Reflection getReflection() {
         return reflection;
     }
 
-    public int getShutterspeed() {
+    public double getShutterspeed() {
         return shutterspeed;
     }
 
-    public int getAperture() {
+    public double getAperture() {
         return aperture;
     }
 
