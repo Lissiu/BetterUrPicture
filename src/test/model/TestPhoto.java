@@ -10,11 +10,13 @@ import org.junit.jupiter.api.Test;
 
 public class TestPhoto {
     private Photo testPhoto;
+    private Reflection ref;
 
     
     @BeforeEach
     void runBefore() {
         testPhoto = new Photo("flower", "a6300", 400, 6.3, 1 / 400);
+        ref = new Reflection();
 
     }
 
@@ -25,6 +27,12 @@ public class TestPhoto {
         assertEquals(400, testPhoto.getIso());
         assertEquals(6.3, testPhoto.getAperture());
         assertEquals(1 / 400, testPhoto.getShutterspeed());
+
+    }
+    @Test
+    void testSetReflection() {
+        testPhoto.setReflection(ref);
+        assertTrue(testPhoto.getReflect());
 
     }
 

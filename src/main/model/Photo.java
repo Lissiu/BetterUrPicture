@@ -34,9 +34,10 @@ public class Photo {
         this.camera = camera;
     }
 
-
+    //EFFECTS: write the reflection for photo and set the photo to be reflected
     public void setReflection(Reflection reflection) {
         this.reflection = reflection;
+        setReflect(true);
 
     }
 

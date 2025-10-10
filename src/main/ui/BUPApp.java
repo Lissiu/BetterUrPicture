@@ -99,6 +99,7 @@ public class BuPApp {
             System.out.println("No albums yet! Please create one first.");
             return;
         }
+        
 
         System.out.print("Enter album index (0 ~ " + (albumCollection.getAlbums().size() - 1) + "): ");
         int index = input.nextInt();
