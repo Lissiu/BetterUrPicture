@@ -33,7 +33,6 @@ public class AlbumCollection {
         }
         return albums;
     }
-    
 
     // MODIFIES: Album
     // EFFECTS: generate a new classified album based on the common issues from the
@@ -41,17 +40,21 @@ public class AlbumCollection {
     public ArrayList<Photo> findCommonPhotos(ProblemType t) {
         ArrayList<Photo> classifiedAlbum = new ArrayList<>();
         for (Album album : albums) {
-            ArrayList<Photo> photos = album.getPhotos();
-            for (Photo p : photos) {
-                ArrayList<ProblemType> pts = p.getReflection().getProblems();
-                for (ProblemType pt : pts) {
+            if (album == null)
+                continue;
+            for (Photo p : album.getPhotos()) {
+                Reflection r = p.getReflection();
+                if (r == null)
+                    continue;
+                for (ProblemType pt : r.getProblems()) {
                     if (pt.equals(t)) {
                         classifiedAlbum.add(p);
+                        break;
                     }
                 }
             }
         }
-        return classifiedAlbum; 
+        return classifiedAlbum;
     }
 
     public ArrayList<Album> getAlbums() {

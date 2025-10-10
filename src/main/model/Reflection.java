@@ -30,11 +30,10 @@ public class Reflection {
     // MODIFIES: this
     // EFFECTS: remove discriptions and comments to the photo reflection if exist
     public void removeComment(String comment) {
-        if (comments.contains(comment))
         this.comments.remove(comment);
     }
 
-    public ArrayList getComments() {
+    public ArrayList<String> getComments() {
         return comments;
     }
 

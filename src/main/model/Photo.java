@@ -21,6 +21,7 @@ public class Photo {
         this.iso = iso;
         this.aperture = aperture;
         this.shutterspeed = shutterspeed;
+        this.reflection = new Reflection();
     }
 
 
@@ -45,11 +46,11 @@ public class Photo {
         this.iso = iso;
     }
 
-    public void setAperture(int aperture) {
+    public void setAperture(double aperture) {
         this.aperture = aperture;
     }
 
-    public void setShutterspeed(int shutterspeed) {
+    public void setShutterspeed(double shutterspeed) {
         this.shutterspeed = shutterspeed;
     }
 
