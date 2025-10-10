@@ -29,6 +29,7 @@ public class TestPhoto {
         assertEquals(1 / 400, testPhoto.getShutterspeed());
 
     }
+
     @Test
     void testSetReflection() {
         testPhoto.setReflection(ref);
