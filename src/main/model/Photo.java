@@ -16,7 +16,11 @@ public class Photo {
     // REQUIRES: iso, aperture, shutterspeed> 0
     // EFFECTS: create a photo with information recorded
     public Photo(String photoname, String camera, int iso, double aperture, double shutterspeed) {
-        //stub
+        this.photoname = photoname;
+        this.camera = camera;
+        this.iso = iso;
+        this.aperture = aperture;
+        this.shutterspeed = shutterspeed;
     }
 
 
