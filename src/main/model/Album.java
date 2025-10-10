@@ -14,19 +14,25 @@ public class Album {
     public Album(String name, LocalDate date) {
         this.albumName = name;
         this.date = date;
+        photos = new ArrayList<>();
     }
 
     // MODIFIES: this
     // EFFECTS: adds the given photo to the album if not already in the album
     public ArrayList<Photo> addPhoto(Photo p) {
-        this.photos.add(p);
+        if (!photos.contains(p)) {
+            this.photos.add(p);
+        }
         return photos;
     }
 
     // MODIFIES: this
-    // EFFECTS: removes the given photo from the album
+    // EFFECTS: removes the given photo from the album if it contains it
     public ArrayList<Photo> removePhoto(Photo p) {
-        this.photos.remove(p);
+        if (photos.contains(p)) {
+            this.photos.remove(p);
+        }
+
         return photos;
     }
 

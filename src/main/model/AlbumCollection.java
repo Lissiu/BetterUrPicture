@@ -11,7 +11,7 @@ public class AlbumCollection {
     // EFFECTS: construct a session of photos with given name and empty albumlist
     public AlbumCollection(String n) {
         this.collectionName = n;
-        this.albums = null;
+        this.albums = new ArrayList<>();
 
     }
 
@@ -35,7 +35,7 @@ public class AlbumCollection {
     }
     
 
-    // MODIFIES: this
+    // MODIFIES: Album
     // EFFECTS: generate a new classified album based on the common issues from the
     // given album collections
     public ArrayList<Photo> findCommonPhotos(ProblemType t) {
@@ -48,10 +48,7 @@ public class AlbumCollection {
                     if (pt.equals(t)) {
                         classifiedAlbum.add(p);
                     }
-
-                    
                 }
-                
             }
         }
         return classifiedAlbum; 

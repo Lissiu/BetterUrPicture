@@ -4,35 +4,38 @@ import java.util.ArrayList;
 
 public class Reflection {
     private ArrayList<ProblemType> problems;
-    private String comment;
     private Photo photo;
+    private ArrayList<String> comments;
 
-    // EFFECTS: construct a reflection of a photos defining the problems and set the photo to be reflected
+    // EFFECTS: construct a reflection of a photos defining the problems and set the
+    // photo to be reflected
     public Reflection() {
         this.problems = new ArrayList<ProblemType>();
-        this.photo.setReflect(true);
-        
+        this.comments = new ArrayList<>();
+
     }
 
     // MODIFIES: this
     // EFFECTS: add given problemype to the photo reflection
     public void addProblemType(ProblemType p) {
         this.problems.add(p);
-
     }
 
     // MODIFIES: this
     // EFFECTS: add discriptions and comments to the photo reflection
     public void addComment(String comment) {
-        this.comment = comment;
+        this.comments.add(comment);
     }
 
-    public String getComment() {
-        return comment;
+    // MODIFIES: this
+    // EFFECTS: remove discriptions and comments to the photo reflection if exist
+    public void removeComment(String comment) {
+        if (comments.contains(comment))
+        this.comments.remove(comment);
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public ArrayList getComments() {
+        return comments;
     }
 
     public ArrayList<ProblemType> getProblems() {
@@ -41,5 +44,17 @@ public class Reflection {
 
     public void setProblems(ArrayList<ProblemType> problems) {
         this.problems = problems;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
     }
 }

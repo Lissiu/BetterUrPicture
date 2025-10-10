@@ -38,6 +38,7 @@ public class Photo {
 
     public void setReflection(Reflection reflection) {
         this.reflection = reflection;
+
     }
 
     public void setIso(int iso) {
