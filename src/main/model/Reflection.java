@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-
+// A reflection for the photo taken
 public class Reflection {
     private ArrayList<ProblemType> problems;
     private Photo photo;
