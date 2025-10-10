@@ -24,10 +24,10 @@ public class TestAlbumCollection {
         tesAlbumCollection = new AlbumCollection("all");
         a1 = new Album("A1", LocalDate.of(2020, 04, 26));
         a2 = new Album("A2", LocalDate.of(2021, 04, 26));
-        p1 = new Photo("shine", "80D", 500, 18, 1/800);
-        p2 = new Photo("dim", "80D", 1600, 18, 1/80);
-        p3 = new Photo("rain", "80D", 1600, 18, 1/80);
-        p4 = new Photo("wind", "80D", 1600, 18, 1/900);
+        p1 = new Photo("shine", "80D", 500, 18, 1 / 800);
+        p2 = new Photo("dim", "80D", 1600, 18, 1 / 80);
+        p3 = new Photo("rain", "80D", 1600, 18, 1 / 80);
+        p4 = new Photo("wind", "80D", 1600, 18, 1 / 900);
 
     }
 
@@ -90,16 +90,40 @@ public class TestAlbumCollection {
     }
 
     @Test
-    void testFindCommonPhotos() {
+    void testFindCommonPhotosSameAlbum() {
         a1.addPhoto(p1);
         a1.addPhoto(p2);
         a2.addPhoto(p3);
         a2.addPhoto(p4);
-        p1.setReflection(null);
+        Reflection r1 = new Reflection();
+        r1.addProblemType(ProblemType.EXPOSURE);
+        p1.setReflection(r1);
+        p2.setReflection(r1);
         tesAlbumCollection.addAlbum(a1);
         tesAlbumCollection.addAlbum(a2);
-        tesAlbumCollection.findCommonPhotos(ProblemType.OTHER);
+        ArrayList<Photo> expected = new ArrayList<Photo>();
+        expected.add(p1);
+        expected.add(p2);
+        assertEquals(expected, tesAlbumCollection.findCommonPhotos(ProblemType.EXPOSURE));
 
+    }
+
+    @Test
+    void testFindCommonPhotosDifferentAlbum() {
+        a1.addPhoto(p1);
+        a1.addPhoto(p2);
+        a2.addPhoto(p3);
+        a2.addPhoto(p4);
+        Reflection r1 = new Reflection();
+        r1.addProblemType(ProblemType.EXPOSURE);
+        p1.setReflection(r1);
+        p3.setReflection(r1);
+        tesAlbumCollection.addAlbum(a1);
+        tesAlbumCollection.addAlbum(a2);
+        ArrayList<Photo> expected = new ArrayList<Photo>();
+        expected.add(p1);
+        expected.add(p3);
+        assertEquals(expected, tesAlbumCollection.findCommonPhotos(ProblemType.EXPOSURE));
 
     }
 }

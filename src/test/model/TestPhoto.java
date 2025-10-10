@@ -14,7 +14,7 @@ public class TestPhoto {
     
     @BeforeEach
     void runBefore() {
-        testPhoto = new Photo("flower", "a6300", 400, 6.3, 1/400);
+        testPhoto = new Photo("flower", "a6300", 400, 6.3, 1 / 400);
 
     }
 
@@ -24,7 +24,7 @@ public class TestPhoto {
         assertEquals("a6300", testPhoto.getCamera());
         assertEquals(400, testPhoto.getIso());
         assertEquals(6.3, testPhoto.getAperture());
-        assertEquals(1/400, testPhoto.getShutterspeed());
+        assertEquals(1 / 400, testPhoto.getShutterspeed());
 
     }
 

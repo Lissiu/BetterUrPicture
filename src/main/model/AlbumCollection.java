@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class AlbumCollection {
     private ArrayList<Album> albums;
     private String collectionName;
-    private Album album;
 
     // EFFECTS: construct a session of photos with given name and empty albumlist
     public AlbumCollection(String n) {
@@ -18,20 +17,17 @@ public class AlbumCollection {
     // MODIFIES: this
     // EFFECTS: add the given album to the album collection if not already in the
     // collection
-    public ArrayList<Album> addAlbum(Album a) {
+    public void addAlbum(Album a) {
         if (!this.albums.contains(a)) {
             this.albums.add(a);
         }
-        return albums;
     }
 
     // MODIFIES: this
     // EFFECTS: remove the given album from the album collection if contains
-    public ArrayList<Album> removeAlbum(Album a) {
-        if (this.albums.contains(a)) {
-            this.albums.remove(a);
-        }
-        return albums;
+    public void removeAlbum(Album a) {
+        this.albums.remove(a);
+
     }
 
     // MODIFIES: Album
@@ -40,12 +36,14 @@ public class AlbumCollection {
     public ArrayList<Photo> findCommonPhotos(ProblemType t) {
         ArrayList<Photo> classifiedAlbum = new ArrayList<>();
         for (Album album : albums) {
-            if (album == null)
+            if (album == null) {
                 continue;
+            }
             for (Photo p : album.getPhotos()) {
                 Reflection r = p.getReflection();
-                if (r == null)
+                if (r == null) {
                     continue;
+                }
                 for (ProblemType pt : r.getProblems()) {
                     if (pt.equals(t)) {
                         classifiedAlbum.add(p);

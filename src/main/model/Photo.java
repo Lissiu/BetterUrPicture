@@ -1,9 +1,10 @@
 package model;
+
 // photo imported by the user
+
 public class Photo {
     private String photoname;
     private String camera;
-    private String scenedescription;
     private Reflection reflection;
     private int iso;
     private double aperture;
@@ -33,9 +34,6 @@ public class Photo {
         this.camera = camera;
     }
 
-    public void setScenedescription(String scenedescription) {
-        this.scenedescription = scenedescription;
-    }
 
     public void setReflection(Reflection reflection) {
         this.reflection = reflection;
@@ -78,9 +76,6 @@ public class Photo {
         return camera;
     }
 
-    public String getScenedescription() {
-        return scenedescription;
-    }
 
     public Reflection getReflection() {
         return reflection;

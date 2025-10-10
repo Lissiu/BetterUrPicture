@@ -28,10 +28,7 @@ public class Album {
     // MODIFIES: this
     // EFFECTS: removes the given photo from the album if it contains it
     public void removePhoto(Photo p) {
-        if (photos.contains(p)) {
-            this.photos.remove(p);
-        }
-
+        this.photos.remove(p);
     }
 
     public LocalDate getDate() {
