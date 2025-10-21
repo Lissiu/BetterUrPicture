@@ -8,11 +8,11 @@ This application is especially helpful for beginner photographers who are still 
 ---
 
 *User Stories*
--  As a user, I want to be able to create a new shooting session by entering the location and date of the session.
-- As a user, I want to be able to add multiple photo entries (X) to a shooting session (Y), each with title, aperture, shutter speed, ISO, scene description, and reflection.
+-  As a user, I want to be able to create a new shooting album by entering the name of the album.
+- As a user, I want to be able to add multiple photo entries (X) to a shooting album (Y), each with title, aperture, shutter speed, ISO, scene description, date and reflection.
 - As a user, I want to view all the photo entries from a selected shooting session in a list.
 - As a user, I want to be able to categorize reflections (e.g., “exposure”, “composition”, “focus”) and filter photo entries by these categories.
-- As a user, I want to add, list, and delete comments and problemtypes on a photo’s reflection.
+- As a user, I want to add, list, and delete comments and problemtypes on a photo’s reflection and rate the photo.
 
 
 

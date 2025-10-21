@@ -16,15 +16,14 @@ public class TestAlbum {
     
     @BeforeEach
     void runBefore() {
-        testAlbum = new Album("Sun", LocalDate.of(2001, 1, 20));
-        p1 = new Photo("flower", "a6300", 400, 6.3, 1 / 400);
-        p2 = new Photo("cloud", "a6300", 200, 2.8, 1 / 1000);
+        testAlbum = new Album("Sun");
+        p1 = new Photo("flower", "a6300", 400, 6.3, 1 / 400, LocalDate.of(2004, 1, 2));
+        p2 = new Photo("cloud", "a6300", 200, 2.8, 1 / 1000, LocalDate.of(2001, 1, 20));
     }
 
     @Test
     void testConstructor() {
         assertEquals("Sun", testAlbum.getAlbumName());
-        assertEquals(LocalDate.of(2001, 1, 20), testAlbum.getDate());
     }
 
     @Test
@@ -84,5 +83,6 @@ public class TestAlbum {
         assertEquals(0, testAlbum.getPhotos().size());
 
     }
+
 
 }

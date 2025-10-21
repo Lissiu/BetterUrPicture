@@ -1,5 +1,8 @@
 package model;
 
+import java.time.LocalDate;
+
+
 // photo imported by the user
 
 public class Photo {
@@ -9,20 +12,22 @@ public class Photo {
     private int iso;
     private double aperture;
     private double shutterspeed;
-    private int score;
     private Boolean reflect;
+    private LocalDate date;
 
 
 
     // REQUIRES: iso, aperture, shutterspeed> 0
     // EFFECTS: create a photo with information recorded
-    public Photo(String photoname, String camera, int iso, double aperture, double shutterspeed) {
+    public Photo(String photoname, String camera, int iso, double aperture, double shutterspeed, LocalDate date) {
         this.photoname = photoname;
         this.camera = camera;
         this.iso = iso;
         this.aperture = aperture;
         this.shutterspeed = shutterspeed;
         this.reflection = new Reflection();
+        this.date = date;
+
     }
 
 
@@ -53,9 +58,6 @@ public class Photo {
         this.shutterspeed = shutterspeed;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     public Boolean getReflect() {
         return reflect;
@@ -90,8 +92,16 @@ public class Photo {
         return aperture;
     }
 
-    public int getScore() {
-        return score;
+
+
+    public LocalDate getDate() {
+        return date;
     }
+
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+    
 
 }

@@ -3,7 +3,7 @@ package model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ public class TestPhoto {
     
     @BeforeEach
     void runBefore() {
-        testPhoto = new Photo("flower", "a6300", 400, 6.3, 1 / 400);
+        testPhoto = new Photo("flower", "a6300", 400, 6.3, 1 / 400, LocalDate.of(2001, 1, 20));
         ref = new Reflection();
 
     }
@@ -27,6 +27,7 @@ public class TestPhoto {
         assertEquals(400, testPhoto.getIso());
         assertEquals(6.3, testPhoto.getAperture());
         assertEquals(1 / 400, testPhoto.getShutterspeed());
+        assertEquals(LocalDate.of(2001, 1, 20), testPhoto.getDate());
 
     }
 
