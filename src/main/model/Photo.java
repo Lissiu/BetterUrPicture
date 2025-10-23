@@ -2,10 +2,14 @@ package model;
 
 import java.time.LocalDate;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
 
 // photo imported by the user
 
-public class Photo {
+public class Photo implements Writable {
     private String photoname;
     private String camera;
     private Reflection reflection;
@@ -14,8 +18,6 @@ public class Photo {
     private double shutterspeed;
     private Boolean reflect;
     private LocalDate date;
-
-
 
     // REQUIRES: iso, aperture, shutterspeed> 0
     // EFFECTS: create a photo with information recorded
@@ -27,37 +29,17 @@ public class Photo {
         this.shutterspeed = shutterspeed;
         this.reflection = new Reflection();
         this.date = date;
+        this.reflect = false;
+        this.reflection = null;
 
     }
 
-
-    public void setPhotoname(String photoname) {
-        this.photoname = photoname;
-    }
-
-    public void setCamera(String camera) {
-        this.camera = camera;
-    }
-
-    //EFFECTS: write the reflection for photo and set the photo to be reflected
+    // EFFECTS: write the reflection for photo and set the photo to be reflected
     public void setReflection(Reflection reflection) {
         this.reflection = reflection;
         setReflect(true);
 
     }
-
-    public void setIso(int iso) {
-        this.iso = iso;
-    }
-
-    public void setAperture(double aperture) {
-        this.aperture = aperture;
-    }
-
-    public void setShutterspeed(double shutterspeed) {
-        this.shutterspeed = shutterspeed;
-    }
-
 
     public Boolean getReflect() {
         return reflect;
@@ -79,7 +61,6 @@ public class Photo {
         return camera;
     }
 
-
     public Reflection getReflection() {
         return reflection;
     }
@@ -92,16 +73,57 @@ public class Photo {
         return aperture;
     }
 
-
-
     public LocalDate getDate() {
         return date;
     }
 
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        addBasicFields(json);
+        addReflectionIfPresent(json);
+        return json;
     }
-    
+
+    // EFFECTS: adds simple scalar fields
+    private void addBasicFields(JSONObject json) {
+        json.put("photoname", photoname);
+        json.put("camera", camera);
+        json.put("iso", iso);
+        json.put("aperture", aperture);
+        json.put("shutterspeed", shutterspeed);
+        json.put("date", date);
+        json.put("reflect", reflect);
+    }
+
+    // EFFECTS: adds reflection object if not null
+    private void addReflectionIfPresent(JSONObject json) {
+        if (reflection == null) {
+            return;
+        }
+        JSONObject ref = new JSONObject();
+        ref.put("score", reflection.getScore());
+        ref.put("problems", buildProblemsArray());
+        ref.put("comments", buildCommentsArray());
+        json.put("reflection", ref);
+    }
+
+    // EFFECTS: builds JSONArray for problems
+    private JSONArray buildProblemsArray() {
+        JSONArray probs = new JSONArray();
+        for (ProblemType pt : reflection.getProblems()) {
+            probs.put(pt.name());
+        }
+        return probs;
+    }
+
+    // EFFECTS: builds JSONArray for comments
+    private JSONArray buildCommentsArray() {
+        JSONArray comms = new JSONArray();
+        for (String c : reflection.getComments()) {
+            comms.put(c);
+        }
+        return comms;
+    }
 
 }

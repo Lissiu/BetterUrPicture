@@ -2,11 +2,15 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // the album of photos
-public class Album {
+public class Album implements Writable {
     private String albumName;
     private ArrayList<Photo> photos;
-
 
     // EFFECTS: construct a session of photos with date and problem type recorded
     public Album(String name) {
@@ -34,15 +38,23 @@ public class Album {
         return albumName;
     }
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
-    }
 
     public ArrayList<Photo> getPhotos() {
         return photos;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("albumName", albumName);
 
+        JSONArray photoArray = new JSONArray();
+        for (Photo p : photos) {
+            photoArray.put(p.toJson());
+        }
+        json.put("photos", photoArray);
 
+        return json;
+    }
 
 }

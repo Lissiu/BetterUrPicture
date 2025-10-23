@@ -2,8 +2,13 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 // the collection of all photos and albums
-public class PhotoLibrary {
+public class PhotoLibrary implements Writable {
     String libName;
     private ArrayList<Photo> photos;
     private ArrayList<Album> albums;
@@ -12,6 +17,7 @@ public class PhotoLibrary {
     public PhotoLibrary(String libName) {
         this.libName = libName;
         this.photos = new ArrayList<Photo>();
+        this.albums = new ArrayList<Album>();
 
     }
 
@@ -47,9 +53,8 @@ public class PhotoLibrary {
 
     }
 
-    // MODIFIES: Album
     // EFFECTS: generate a new classified album based on the common issues from the
-    // given album collections
+    // given photo library
     public ArrayList<Photo> findCommonPhotos(ProblemType t) {
         ArrayList<Photo> classifiedAlbum = new ArrayList<>();
         for (Photo p : photos) {
@@ -71,24 +76,56 @@ public class PhotoLibrary {
         return libName;
     }
 
-    public void setLibName(String libName) {
-        this.libName = libName;
-    }
+
 
     public ArrayList<Album> getAlbums() {
         return albums;
     }
 
-    public void setAlbums(ArrayList<Album> albums) {
-        this.albums = albums;
-    }
+
 
     public ArrayList<Photo> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(ArrayList<Photo> photos) {
-        this.photos = photos;
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", libName);
+        json.put("photos", photosToJson());
+        json.put("albums", albumsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this library as a JSON array
+    private JSONArray photosToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Photo p : photos) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    // EFFECTS: returns things in this library as a JSON array
+    private JSONArray albumsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Album a : albums) {
+            jsonArray.put(a.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    public Integer numPhotos() {
+        return this.photos.size();
+    }
+
+    public Integer numAlbums() {
+        return this.albums.size();
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 
-public class TestPhotoLibrary{
+public class TestPhotoLibrary {
     private PhotoLibrary testPhotoLibrary;
     private Album a1;
     private Album a2;
@@ -18,12 +18,14 @@ public class TestPhotoLibrary{
     private Photo p2;
     private Photo p3;
     private Photo p4;
-    private ArrayList photos;
+    private ArrayList<Photo> photos;
+    private ArrayList<Album> albums;
 
     @BeforeEach
     void runBefore() {
         testPhotoLibrary = new PhotoLibrary("all");
-        photos = new ArrayList<>();
+        photos = new ArrayList<Photo>();
+        albums = new ArrayList<Album>();
         a1 = new Album("A1");
         a2 = new Album("A2");
         p1 = new Photo("shine", "80D", 500, 18, 1 / 800, LocalDate.of(2020, 04, 26));
@@ -37,6 +39,7 @@ public class TestPhotoLibrary{
     void testConstructor() {
         assertEquals("all", testPhotoLibrary.getLibName());
         assertEquals(photos, testPhotoLibrary.getPhotos());
+        assertEquals(albums, testPhotoLibrary.getAlbums());
 
     }
 
@@ -83,30 +86,13 @@ public class TestPhotoLibrary{
     }
 
 
-    @Test
-    void testFindCommonPhotosSameAlbum() {
-        a1.addPhoto(p1);
-        a1.addPhoto(p2);
-        a2.addPhoto(p3);
-        a2.addPhoto(p4);
-        Reflection r1 = new Reflection();
-        r1.addProblemType(ProblemType.EXPOSURE);
-        p1.setReflection(r1);
-        p2.setReflection(r1);
-
-        ArrayList<Photo> expected = new ArrayList<Photo>();
-        expected.add(p1);
-        expected.add(p2);
-        assertEquals(expected, testPhotoLibrary.findCommonPhotos(ProblemType.EXPOSURE));
-
-    }
 
     @Test
-    void testFindCommonPhotosDifferentAlbum() {
-        a1.addPhoto(p1);
-        a1.addPhoto(p2);
-        a2.addPhoto(p3);
-        a2.addPhoto(p4);
+    void testFindCommonPhotos() {
+        testPhotoLibrary.addPhoto(p1);
+        testPhotoLibrary.addPhoto(p2);
+        testPhotoLibrary.addPhoto(p3);
+        testPhotoLibrary.addPhoto(p4);
         Reflection r1 = new Reflection();
         r1.addProblemType(ProblemType.EXPOSURE);
         p1.setReflection(r1);
@@ -119,9 +105,48 @@ public class TestPhotoLibrary{
     }
 
     @Test
+    void testAddSamePhoto() {
+        testPhotoLibrary.addPhoto(p1);
+        testPhotoLibrary.addPhoto(p1);
+        assertEquals(p1, testPhotoLibrary.getPhotos().get(0));
+        assertEquals(1, testPhotoLibrary.getPhotos().size());
+    }
+
+    @Test
+    void testRemovePhoto() {
+        testPhotoLibrary.addPhoto(p1);
+        testPhotoLibrary.removePhoto(p1);
+        assertEquals(0, testPhotoLibrary.getPhotos().size());
+    }
+
+    @Test
     void testFindCommonPhotosNull() {
         ArrayList<Photo> expected = new ArrayList<Photo>();
         assertEquals(expected, testPhotoLibrary.findCommonPhotos(ProblemType.EXPOSURE));
+
+    }
+
+    @Test
+    void testFindCommonPhotosNullProblem() {
+        testPhotoLibrary.addPhoto(p1);
+        testPhotoLibrary.addPhoto(p2);
+        ArrayList<Photo> expected = new ArrayList<Photo>();
+        assertEquals(expected, testPhotoLibrary.findCommonPhotos(ProblemType.EXPOSURE));
+
+    }
+
+    @Test
+    void testFindCommonPhotosWrongProblem() {
+        testPhotoLibrary.addPhoto(p1);
+        testPhotoLibrary.addPhoto(p2);
+        testPhotoLibrary.addPhoto(p3);
+        testPhotoLibrary.addPhoto(p4);
+        Reflection r1 = new Reflection();
+        r1.addProblemType(ProblemType.EXPOSURE);
+        p1.setReflection(r1);
+        p3.setReflection(r1);
+        ArrayList<Photo> expected = new ArrayList<Photo>();
+        assertEquals(expected, testPhotoLibrary.findCommonPhotos(ProblemType.COLOR));
 
     }
 }

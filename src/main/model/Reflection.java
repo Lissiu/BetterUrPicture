@@ -1,11 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+
 // A reflection for the photo taken
 
 public class Reflection {
     private ArrayList<ProblemType> problems;
-    private Photo photo;
     private ArrayList<String> comments;
     private int score;
 
@@ -14,6 +14,7 @@ public class Reflection {
     public Reflection() {
         this.problems = new ArrayList<ProblemType>();
         this.comments = new ArrayList<>();
+        this.score = 0;
 
     }
 
@@ -44,21 +45,7 @@ public class Reflection {
         return problems;
     }
 
-    public void setProblems(ArrayList<ProblemType> problems) {
-        this.problems = problems;
-    }
 
-    public Photo getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Photo photo) {
-        this.photo = photo;
-    }
-
-    public void setComments(ArrayList<String> comments) {
-        this.comments = comments;
-    }
 
     public int getScore() {
         return score;

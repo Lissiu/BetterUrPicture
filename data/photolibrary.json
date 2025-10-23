@@ -1,0 +1,34 @@
+{
+    "albums": [{
+        "albumName": "nature",
+        "photos": [{
+            "date": "2000-01-30",
+            "aperture": 4.4,
+            "shutterspeed": 1.0E-6,
+            "reflect": true,
+            "iso": 200,
+            "reflection": {
+                "score": 100,
+                "comments": ["good"],
+                "problems": ["COLOR"]
+            },
+            "camera": "sony",
+            "photoname": "sun"
+        }]
+    }],
+    "name": "my library",
+    "photos": [{
+        "date": "2000-01-30",
+        "aperture": 4.4,
+        "shutterspeed": 1.0E-6,
+        "reflect": true,
+        "iso": 200,
+        "reflection": {
+            "score": 100,
+            "comments": ["good"],
+            "problems": ["COLOR"]
+        },
+        "camera": "sony",
+        "photoname": "sun"
+    }]
+}
