@@ -1,0 +1,22 @@
+{
+  "albums": [{
+    "albumName": "A1",
+    "photos": [{
+      "date": "2025-10-22",
+      "aperture": 5.6,
+      "shutterspeed": 0.01,
+      "iso": 200,
+      "camera": "XT5",
+      "photoname": "p1.jpg"
+    }]
+  }],
+  "name": "Lib",
+  "photos": [{
+    "date": "2025-10-22",
+    "aperture": 5.6,
+    "shutterspeed": 0.01,
+    "iso": 200,
+    "camera": "XT5",
+    "photoname": "p1.jpg"
+  }]
+}

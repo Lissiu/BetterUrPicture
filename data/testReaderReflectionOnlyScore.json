@@ -1,0 +1,12 @@
+{
+  "name": "Lib",
+  "photos": [{
+    "date": "2025-10-24",
+    "aperture": 2.8,
+    "shutterspeed": 0.01,
+    "iso": 400,
+    "reflection": {"score": 88},
+    "camera": "XT5",
+    "photoname": "score.jpg"
+  }]
+}

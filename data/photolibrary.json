@@ -1,34 +1,34 @@
 {
     "albums": [{
-        "albumName": "nature",
+        "albumName": "w",
         "photos": [{
-            "date": "2000-01-30",
-            "aperture": 4.4,
-            "shutterspeed": 1.0E-6,
+            "date": "2020-10-11",
+            "aperture": 200,
+            "shutterspeed": 10,
             "reflect": true,
-            "iso": 200,
+            "iso": 300,
             "reflection": {
                 "score": 100,
-                "comments": ["good"],
+                "comments": [],
                 "problems": ["COLOR"]
             },
             "camera": "sony",
-            "photoname": "sun"
+            "photoname": "flower"
         }]
     }],
     "name": "my library",
     "photos": [{
-        "date": "2000-01-30",
-        "aperture": 4.4,
-        "shutterspeed": 1.0E-6,
+        "date": "2020-10-11",
+        "aperture": 20,
+        "shutterspeed": 10,
         "reflect": true,
-        "iso": 200,
+        "iso": 300,
         "reflection": {
             "score": 100,
-            "comments": ["good"],
+            "comments": [],
             "problems": ["COLOR"]
         },
         "camera": "sony",
-        "photoname": "sun"
+        "photoname": "flower"
     }]
 }

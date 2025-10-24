@@ -13,8 +13,8 @@ This application is especially helpful for beginner photographers who are still 
 - As a user, I want to view all the photo entries from a selected shooting session in a list.
 - As a user, I want to be able to categorize reflections (e.g., “exposure”, “composition”, “focus”) and filter photo entries by these categories.
 - As a user, I want to add, list, and delete comments and problemtypes on a photo’s reflection and rate the photo.
-- As a user, when I select the quit option from the application menu, I want to be reminded to save my photo library to file and have the option to do so or not.
-- As a user, when I start the application, I want to be given the option to load my photo library from file.
+- As a user, I want to save my photo library to file and have the option to do so or not.
+- As a user, I want to be given the option to load my photo library from file.
 
 
 
