@@ -1,0 +1,22 @@
+{
+  "name": "Lib",
+  "photos": [{
+    "date": "2025-10-28",
+    "aperture": 3.2,
+    "shutterspeed": 0.008,
+    "iso": 640,
+    "reflection": {
+      "score": 95,
+      "comments": [
+        "too bright",
+        "color cast"
+      ],
+      "problems": [
+        "EXPOSURE",
+        "COLOR"
+      ]
+    },
+    "camera": "XT5",
+    "photoname": "full.jpg"
+  }]
+}

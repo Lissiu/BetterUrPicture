@@ -1,0 +1,12 @@
+{
+  "albums": [],
+  "name": "Lib",
+  "photos": [{
+    "date": "2025-10-23",
+    "aperture": 3.5,
+    "shutterspeed": 0.02,
+    "iso": 320,
+    "camera": "XT5",
+    "photoname": "noref.jpg"
+  }]
+}

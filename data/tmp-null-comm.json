@@ -1,0 +1,16 @@
+{
+  "name": "Lib",
+  "photos": [{
+    "date": "2025-10-27",
+    "aperture": 5.6,
+    "shutterspeed": 0.02,
+    "iso": 200,
+    "reflection": {
+      "score": 55,
+      "comments": [null],
+      "problems": ["EXPOSURE"]
+    },
+    "camera": "XT5",
+    "photoname": "nullcomm.jpg"
+  }]
+}
