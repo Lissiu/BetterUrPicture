@@ -4,14 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-
 // Panel that shows a scaled preview of an image file, or an error
 // message if the file cannot be loaded.
 
 public class ImagePreviewPanel extends JPanel {
     private final JLabel image = new JLabel("No image", SwingConstants.CENTER);
-
-
 
 // MODIFIES: this
 // EFFECTS:  constructs the preview panel with a label placeholder.
@@ -22,7 +19,6 @@ public class ImagePreviewPanel extends JPanel {
         add(image, BorderLayout.CENTER);
         setPreferredSize(new Dimension(680, 420));
     }
-
 
 // REQUIRES: none
 // MODIFIES: this
