@@ -1,13 +1,16 @@
-package ui.GUI;
+package ui.gui;
 
 import javax.swing.*;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.awt.*;
 import java.util.function.Consumer;
 
 
 // Panel that shows and optionally edits a single block of text for
 // reflections.
-
+@ExcludeFromJacocoGeneratedReport
 public class ReflectionPanel extends JPanel {
     private final JTextArea area = new JTextArea(8, 40);
     private final JButton save = new JButton("Save Reflection");
@@ -49,7 +52,7 @@ public class ReflectionPanel extends JPanel {
     }
 
 
-// REQUIRES: c is not null
+
 // MODIFIES: this
 // EFFECTS:  installs a callback that is invoked when the save button
 //          is clicked, passing the current text content.

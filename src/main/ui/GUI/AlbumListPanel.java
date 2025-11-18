@@ -1,16 +1,19 @@
-package ui.GUI;
+package ui.gui;
 
 import model.Album;
-import ui.GUI.adapters.LibraryAdapter;
+import ui.gui.adapters.LibraryAdapter;
 
 import javax.swing.*;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.awt.*;
 import java.util.List;
 
 
 // Panel that displays a list of albums and an "(All Photos)" item.
 // The list is used by MainFrame for selection handling.
-
+@ExcludeFromJacocoGeneratedReport
 public class AlbumListPanel extends JPanel {
     public static final String ALL_PHOTOS_ITEM = "(All Photos)";
 
@@ -21,7 +24,6 @@ public class AlbumListPanel extends JPanel {
 // MODIFIES: this
 // EFFECTS:  constructs the album list panel with an empty list and
 //          configures basic layout.
-
     public AlbumListPanel() {
         setLayout(new BorderLayout());
         add(new JLabel("Albums"), BorderLayout.NORTH);
@@ -33,8 +35,6 @@ public class AlbumListPanel extends JPanel {
         setPreferredSize(new Dimension(260, 350));
     }
 
-
-// REQUIRES: albums and adapter are not null
 // MODIFIES: this
 // EFFECTS:  fills the list model with the special "(All Photos)" item
 //          followed by all albums, and sets a renderer that uses

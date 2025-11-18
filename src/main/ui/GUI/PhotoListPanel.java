@@ -1,16 +1,19 @@
-package ui.GUI;
+package ui.gui;
 
 import model.Photo;
-import ui.GUI.adapters.LibraryAdapter;
+import ui.gui.adapters.LibraryAdapter;
 
 import javax.swing.*;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.awt.*;
 import java.util.List;
 
 
 // Panel that shows the list of photos for the current view
 // (all photos or photos of a selected album).
-
+@ExcludeFromJacocoGeneratedReport
 public class PhotoListPanel extends JPanel {
     private final DefaultListModel<Photo> model = new DefaultListModel<>();
     private final JList<Photo> list = new JList<>(model);
@@ -42,7 +45,6 @@ public class PhotoListPanel extends JPanel {
     }
 
 
-// REQUIRES: photos and adapter are not null
 // MODIFIES: this
 // EFFECTS:  clears the current list and fills it with the given
 //          photos.

@@ -1,20 +1,22 @@
-package ui.GUI;
+package ui.gui;
 
 import model.Album;
 import model.Photo;
-import ui.GUI.adapters.LibraryAdapter;
+import ui.gui.adapters.LibraryAdapter;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.awt.*;
 import java.io.File;
-
 
 // Main application window for the Better Your Picture GUI.
 // It connects the album list, photo list, image preview, and
 // reflection panel, and uses LibraryAdapter to talk to the model.
-
+@ExcludeFromJacocoGeneratedReport
 public class MainFrame extends JFrame implements ListSelectionListener {
     private final LibraryAdapter adapter = new LibraryAdapter();
 
@@ -27,13 +29,10 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private Album currentAlbum = null;
     private Photo currentPhoto = null;
 
-
-
-// MODIFIES: this
-// EFFECTS:  constructs the main window, sets up layout, menus,
-//          list selection listeners, loads data from disk, and
-//          populates initial views.
-
+    // MODIFIES: this
+    // EFFECTS: constructs the main window, sets up layout, menus,
+    // list selection listeners, loads data from disk, and
+    // populates initial views.
     public MainFrame() {
         super("Better Your Picture (GUI)");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,16 +51,7 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         albumList.getList().addListSelectionListener(this);
         photoList.getList().addListSelectionListener(this);
 
-        reflection.onSave(new java.util.function.Consumer<String>() {
-            @Override
-            public void accept(String txt) {
-                if (currentAlbum != null) {
-                    adapter.setAlbumReflection(currentAlbum, txt);
-                    JOptionPane.showMessageDialog(MainFrame.this,
-                            "Reflection saved for " + currentAlbum.getAlbumName());
-                }
-            }
-        });
+
 
         setJMenuBar(new AppMenuBar(this, adapter));
 
@@ -71,13 +61,10 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         setLocationRelativeTo(null);
     }
 
-
-
-// MODIFIES: this
-// EFFECTS:  reloads the album list and photo list from the adapter,
-//          selects the "(All Photos)" item, clears the reflection
-//           text, and repaints the frame.
-
+    // MODIFIES: this
+    // EFFECTS: reloads the album list and photo list from the adapter,
+    // selects the "(All Photos)" item, clears the reflection
+    // text, and repaints the frame.
     public void refreshAll() {
         albumList.setAlbums(adapter.albums(), adapter);
         albumList.selectAllPhotosItem();
@@ -87,10 +74,8 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         repaint();
     }
 
-
-// EFFECTS:  opens a file chooser for images and returns the absolute
-//          path of the selected file, or null if the user cancels.
-
+    // EFFECTS: opens a file chooser for images and returns the absolute
+    // path of the selected file, or null if the user cancels.
     private String chooseImageFile() {
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
@@ -102,65 +87,57 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         return null;
     }
 
-
-// EFFECTS:  returns the album currently selected in the UI, or null
-//          if "(All Photos)" is selected.
-
+    // EFFECTS: returns the album currently selected in the UI, or null
+    // if "(All Photos)" is selected.
     public Album getCurrentAlbum() {
         return currentAlbum;
     }
 
-
-
-// EFFECTS:  returns the photo currently selected in the photo list,
-//           or null if none is selected.
-
+    // EFFECTS: returns the photo currently selected in the photo list,
+    // or null if none is selected.
     public Photo getCurrentPhoto() {
         return currentPhoto;
     }
 
-
-// REQUIRES: e is not null
-// MODIFIES: this
-// EFFECTS:  responds to selection changes in the album or photo list.
-//           When an album is selected, updates the photo list and
-//          album reflection text; when "(All Photos)" is selected,
-//          shows all photos and clears the reflection; when a photo
-//           is selected, updates the image preview and shows that
-//          photo's reflection in read-only form.
-
+    // MODIFIES: this
+    // EFFECTS: responds to selection changes in the album or photo list.
+    // When an album is selected, updates the photo list and
+    // album reflection text; when "(All Photos)" is selected,
+    // shows all photos and clears the reflection; when a photo
+    // is selected, updates the image preview and shows that
+    // photo's reflection in read-only form.
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
             return;
         }
-
         Object src = e.getSource();
-
         if (src == albumList.getList()) {
             Object value = albumList.getList().getSelectedValue();
-
             if (value instanceof String
                     && AlbumListPanel.ALL_PHOTOS_ITEM.equals(value)) {
-                currentAlbum = null;
                 photoList.setPhotos(adapter.allPhotos(), adapter);
                 reflection.setText("");
                 reflection.setEditable(false);
+
             } else if (value instanceof Album) {
                 currentAlbum = (Album) value;
                 photoList.setPhotos(currentAlbum.getPhotos(), adapter);
+
                 reflection.setText(adapter.getAlbumReflection(currentAlbum));
                 reflection.setEditable(true);
             }
+    
         } else if (src == photoList.getList()) {
             Photo p = (Photo) photoList.getList().getSelectedValue();
             currentPhoto = p;
-
+    
             if (p == null) {
                 preview.showImage(null);
+                reflection.setText("");
                 return;
             }
-
+    
             String path = adapter.getPhotoPath(p);
             if (path == null || path.trim().isEmpty() || !(new File(path).exists())) {
                 path = chooseImageFile();
@@ -169,19 +146,16 @@ public class MainFrame extends JFrame implements ListSelectionListener {
                 }
             }
             preview.showImage(path);
-
+    
             reflection.setText(renderPhotoReflection(p));
             reflection.setEditable(false);
         }
     }
+    
 
-
-// REQUIRES: p is not null
-
-// EFFECTS:  builds a human readable text summary of the photo's
-//          reflection, including score, problems, and comments; if
-//          there is no reflection, returns a message indicating that.
-
+    // EFFECTS: builds a human readable text summary of the photo's
+    // reflection, including score, problems, and comments; if
+    // there is no reflection, returns a message indicating that.
     private String renderPhotoReflection(Photo p) {
         model.Reflection r = p.getReflection();
         if (r == null) {
@@ -211,5 +185,14 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         }
         return sb.toString();
     }
-}
 
+    // MODIFIES: this
+    // updates the reflection panel to display the reflection
+    // of the given photo in read-only mode.
+    public void refreshReflectionForPhoto(Photo p) {
+        String text = renderPhotoReflection(p);
+        reflection.setText(text);
+        reflection.setEditable(false);
+    }
+
+}

@@ -1,12 +1,15 @@
-package ui.GUI;
+package ui.gui;
 
 import javax.swing.*;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.awt.*;
 import java.io.File;
 
 // Panel that shows a scaled preview of an image file, or an error
 // message if the file cannot be loaded.
-
+@ExcludeFromJacocoGeneratedReport
 public class ImagePreviewPanel extends JPanel {
     private final JLabel image = new JLabel("No image", SwingConstants.CENTER);
 

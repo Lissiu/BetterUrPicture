@@ -16,9 +16,9 @@ import model.Reflection;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-/**
- * The app of Better Your Picture (collects photos and reflections).
- */
+
+// The app of Better Your Picture (collects photos and reflections).
+
 @ExcludeFromJacocoGeneratedReport
 public class BuPApp {
     private static final String JSON_STORE = "./data/photolibrary.json";

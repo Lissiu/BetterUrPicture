@@ -1,14 +1,15 @@
-package ui.GUI.adapters;
+package ui.gui.adapters;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 // Stores extra data that is not part of the core model, such as
 // photo file paths and album reflection texts, in simple JSON files.
-
+@ExcludeFromJacocoGeneratedReport
 public class SidecarStores {
     private static final String PATHS_FILE = "./data/photopaths.json";
     private static final String ALBUM_REFL_FILE = "./data/album_reflections.json";
@@ -16,66 +17,46 @@ public class SidecarStores {
     private final Map<String, String> photoPath = new HashMap<>();
     private final Map<String, String> albumRefl = new HashMap<>();
 
-
-// REQUIRES: photoName is not null
-// EFFECTS:  returns the stored path for the given photo name, or
-//           the empty string if none is stored.
-
+    // EFFECTS: returns the stored path for the given photo name, or
+    // the empty string if none is stored.
     public String getPhotoPath(String photoName) {
         return photoPath.getOrDefault(photoName, "");
     }
 
-
-// REQUIRES: photoName is not null
-// MODIFIES: this
-// EFFECTS:  associates the given path with the given photo name.
-
+    // MODIFIES: this
+    // EFFECTS: associates the given path with the given photo name.
     public void putPhotoPath(String photoName, String path) {
         photoPath.put(photoName, path);
     }
 
-
-// REQUIRES: photoName is not null
-// MODIFIES: this
-// EFFECTS:  removes any path entry for the given photo name.
+    // MODIFIES: this
+    // EFFECTS: removes any path entry for the given photo name.
     public void removePhotoPath(String photoName) {
         photoPath.remove(photoName);
     }
 
-
-// REQUIRES: albumName is not null
-// EFFECTS:  returns the stored reflection text for the album, or
-//          the empty string if none is stored.
-
+    // EFFECTS: returns the stored reflection text for the album, or
+    // the empty string if none is stored.
     public String getAlbumReflection(String albumName) {
         return albumRefl.getOrDefault(albumName, "");
     }
 
-
-// REQUIRES: albumName is not null
-// MODIFIES: this
-// EFFECTS:  stores the given reflection text for the album name;
-//          null text is stored as an empty string.
-
+    // MODIFIES: this
+    // EFFECTS: stores the given reflection text for the album name;
+    // null text is stored as an empty string.
     public void putAlbumReflection(String albumName, String text) {
         albumRefl.put(albumName, text == null ? "" : text);
     }
 
-
-// REQUIRES: albumName is not null
-// MODIFIES: this
-//EFFECTS:  removes any reflection entry for the given album name.
-
+    // MODIFIES: this
+    // EFFECTS: removes any reflection entry for the given album name.
     public void removeAlbumReflection(String albumName) {
         albumRefl.remove(albumName);
     }
 
-
-// REQUIRES: oldName and newName are not null
-// MODIFIES: this
-// EFFECTS:  if a reflection is stored under oldName, moves it to
-//           newName; otherwise does nothing.
-
+    // MODIFIES: this
+    // EFFECTS: if a reflection is stored under oldName, moves it to
+    // newName; otherwise does nothing.
     public void renameAlbumKey(String oldName, String newName) {
         if (oldName == null || newName == null || !albumRefl.containsKey(oldName)) {
             return;
@@ -84,36 +65,28 @@ public class SidecarStores {
         albumRefl.put(newName, v);
     }
 
-
-// MODIFIES: this
-// EFFECTS:  loads photoPath and albumRefl maps from their JSON files
-//           if the files exist; if a file does not exist, the
-//            corresponding map is left empty.
-
+    // MODIFIES: this
+    // EFFECTS: loads photoPath and albumRefl maps from their JSON files
+    // if the files exist; if a file does not exist, the
+    // corresponding map is left empty.
     public void loadAll() {
         loadJson(PATHS_FILE, photoPath);
         loadJson(ALBUM_REFL_FILE, albumRefl);
     }
 
-
-
-// MODIFIES: filesystem
-//EFFECTS:  writes the photoPath and albumRefl maps to their JSON
-//          files; IOExceptions are ignored.
-
+    // MODIFIES: filesystem
+    // EFFECTS: writes the photoPath and albumRefl maps to their JSON
+    // files; IOExceptions are ignored.
     public void saveAll() {
         saveJson(PATHS_FILE, photoPath);
         saveJson(ALBUM_REFL_FILE, albumRefl);
     }
 
-
-// REQUIRES: path is not null and map is not null
-// MODIFIES: map
-// EFFECTS:  clears the map and fills it with key value pairs from
-//          the JSON object in the given file if the file exists;
-//          if the file does not exist, the map is left empty;
-//          IOExceptions are ignored.
-
+    // MODIFIES: map
+    // EFFECTS: clears the map and fills it with key value pairs from
+    // the JSON object in the given file if the file exists;
+    // if the file does not exist, the map is left empty;
+    // IOExceptions are ignored.
     private void loadJson(String path, Map<String, String> map) {
         map.clear();
         File f = new File(path);
@@ -138,16 +111,13 @@ public class SidecarStores {
                 }
             }
         } catch (IOException ignored) {
-            // ignore
+            //ignored
         }
     }
 
-
-// REQUIRES: path is not null and map is not null
-// MODIFIES: filesystem
-// EFFECTS:  writes the map as a single JSON object into the given
-//          file; IOExceptions are ignored.
-
+    // MODIFIES: filesystem
+    // EFFECTS: writes the map as a single JSON object into the given
+    // file; IOExceptions are ignored.
     private void saveJson(String path, Map<String, String> map) {
         try (BufferedWriter bw = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(path), StandardCharsets.UTF_8))) {

@@ -1,12 +1,18 @@
-package ui.GUI;
+package ui.gui;
 
 import model.Album;
 import model.Photo;
-import ui.GUI.adapters.LibraryAdapter;
+import model.ProblemType;
+import model.Reflection;
+import ui.gui.adapters.LibraryAdapter;
 
 import javax.swing.*;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.awt.*;
 import java.io.File;
+
 import java.nio.file.Files;
 import java.time.LocalDate;
 
@@ -14,13 +20,13 @@ import java.time.LocalDate;
 // Menu bar for the Better Your Picture GUI.
 //Provides File, Photo, and Album menus with actions for
 // loading/saving data, importing photos, and managing albums.
-
+@ExcludeFromJacocoGeneratedReport
 public class AppMenuBar extends JMenuBar {
     private final MainFrame frame;
     private final LibraryAdapter adapter;
 
 
-// REQUIRES: frame and adapter are not null
+
 // MODIFIES: this
 // EFFECTS:  constructs the menu bar and adds the File, Photo,
 //           and Album menus.
@@ -51,16 +57,20 @@ public class AppMenuBar extends JMenuBar {
         return m;
     }
 
-// EFFECTS:  returns a Photo menu with items to import photos,
-//           delete a photo, add a photo to an album, and remove it
-//          from an album.
 
+// EFFECTS:  returns a Photo menu with items to import photos,
+//           delete a photo, edit reflection, add a photo to an
+//          album, and remove it from an album.
     private JMenu photoMenu() {
         JMenu m = new JMenu("Photo");
         m.add(menuItem("Import...", this::doImport,
                 KeyStroke.getKeyStroke('I', menuMask())));
         m.add(menuItem("Delete Photo", this::doDeletePhoto,
                 KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0)));
+
+        m.add(menuItem("Edit Reflection...", this::doEditReflection,
+                KeyStroke.getKeyStroke('E', menuMask())));
+
         m.addSeparator();
         m.add(menuItem("Add to Album", this::doAddToAlbum,
                 KeyStroke.getKeyStroke('A', menuMask())));
@@ -68,6 +78,7 @@ public class AppMenuBar extends JMenuBar {
                 KeyStroke.getKeyStroke('R', menuMask())));
         return m;
     }
+
 
 
 // EFFECTS:  returns an Album menu with items to create, rename,
@@ -84,7 +95,6 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: text is not null; act is not null
 // EFFECTS:  creates a JMenuItem with the given text and action
 //           listener; sets the accelerator key if ks is not null.
 
@@ -105,7 +115,7 @@ public class AppMenuBar extends JMenuBar {
         return Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
     }
 
-// REQUIRES: s is not null
+
 // EFFECTS:  shows an information dialog with the given message.
 
     private void info(String s) {
@@ -113,7 +123,7 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-//REQUIRES: s is not null
+
 // EFFECTS:  shows an error dialog with the given message.
 
     private void error(String s) {
@@ -123,7 +133,7 @@ public class AppMenuBar extends JMenuBar {
     // ====================== Actions ======================
 
 
-// REQUIRES: e is not null
+
 //MODIFIES: adapter, frame
 // EFFECTS:  loads data from disk using the adapter, refreshes the
 //          main frame, and shows an information dialog.
@@ -135,7 +145,6 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: e is not null
 // MODIFIES: adapter, filesystem, frame
 // EFFECTS:  opens a file chooser to select image files, copies them
 //           into a fixed library directory, creates Photo objects in
@@ -186,7 +195,7 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: e is not null
+
 // MODIFIES: adapter, frame
 // EFFECTS:  if a photo is selected in the main frame, asks the user
 //          for confirmation and removes the photo from the library
@@ -211,7 +220,101 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: e is not null
+// MODIFIES: current photo in frame
+// EFFECTS:  if a photo is selected, shows a dialog that lets the user
+//           choose a problem type, enter a comment, and set a score.
+//          When the user confirms, writes a new Reflection to the
+//           photo and updates the reflection panel in the main frame.
+//          If no photo is selected, shows an information dialog.
+    private void doEditReflection(java.awt.event.ActionEvent e) {
+        Photo p = frame.getCurrentPhoto();
+        if (p == null) {
+            info("Select a photo first.");
+            return;
+        }
+
+        // --- build dialog UI ---
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Problem type
+        JPanel typeRow = new JPanel();
+        typeRow.setLayout(new BoxLayout(typeRow, BoxLayout.X_AXIS));
+        JLabel typeLabel = new JLabel("Problem type: ");
+        JComboBox<ProblemType> typeBox = new JComboBox<>(ProblemType.values());
+        typeRow.add(typeLabel);
+        typeRow.add(typeBox);
+        panel.add(typeRow);
+
+        panel.add(Box.createVerticalStrut(8));
+
+        // Comment
+        JLabel commentLabel = new JLabel("Comment (optional):");
+        JTextArea commentArea = new JTextArea(5, 30);
+        commentArea.setLineWrap(true);
+        commentArea.setWrapStyleWord(true);
+        JScrollPane commentScroll = new JScrollPane(commentArea);
+        panel.add(commentLabel);
+        panel.add(commentScroll);
+
+        panel.add(Box.createVerticalStrut(8));
+
+        // Score
+        JPanel scoreRow = new JPanel();
+        scoreRow.setLayout(new BoxLayout(scoreRow, BoxLayout.X_AXIS));
+        JLabel scoreLabel = new JLabel("Score (0-100): ");
+        JTextField scoreField = new JTextField("0", 5);
+        scoreRow.add(scoreLabel);
+        scoreRow.add(scoreField);
+        panel.add(scoreRow);
+
+        // --- show dialog ---
+        int result = JOptionPane.showConfirmDialog(
+                frame,
+                panel,
+                "Edit Reflection for \"" + p.getPhotoname() + "\"",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        // --- build Reflection object ---
+        int score;
+        try {
+            score = Integer.parseInt(scoreField.getText().trim());
+            if (score < 0 || score > 100) {
+                throw new NumberFormatException("Score out of range");
+            }
+        } catch (NumberFormatException ex) {
+            error("Score must be an integer between 0 and 100.");
+            return;
+        }
+
+        Reflection r = new Reflection();
+        ProblemType pt = (ProblemType) typeBox.getSelectedItem();
+        if (pt != null) {
+            r.addProblemType(pt);
+        }
+
+        String comment = commentArea.getText().trim();
+        if (!comment.isEmpty()) {
+            r.addComment(comment);
+        }
+
+        r.setScore(score);
+        p.setReflection(r);
+
+        // update right panel text
+        frame.refreshReflectionForPhoto(p);
+        info("Reflection saved for \"" + p.getPhotoname() + "\".");
+    }
+
+
+
+
 // MODIFIES: current album in frame
 //EFFECTS:  if both an album and a photo are selected in the main
 //         frame, adds the photo to the album; then refreshes the
@@ -231,7 +334,7 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: e is not null
+
 // MODIFIES: adapter, current album in frame
 // EFFECTS:  if both an album and a photo are selected, removes the
 //          photo from that album using the adapter, refreshes the
@@ -251,7 +354,6 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: e is not null
 // MODIFIES: adapter, frame
 // EFFECTS:  prompts the user for a new album name, creates the album
 //          through the adapter, and refreshes the frame; if the name
@@ -272,7 +374,7 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: e is not null
+
 // MODIFIES: adapter, frame
 // EFFECTS:  if an album is selected, prompts the user for a new name,
 //          renames the album via the adapter, and refreshes the
@@ -300,7 +402,7 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: e is not null
+
 // MODIFIES: adapter, frame
 // EFFECTS:  if an album is selected, asks for confirmation and then
 //           removes it via the adapter and refreshes the frame; if
@@ -324,7 +426,7 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-// REQUIRES: dir and base are not null
+
 // EFFECTS:  returns a File object in the given directory that is
 //          unique by appending "(k)" before the extension if needed.
 
@@ -341,7 +443,7 @@ public class AppMenuBar extends JMenuBar {
     }
 
 
-//REQUIRES: n is not null
+
 // EFFECTS:  returns n without its extension if it has one, otherwise
 //          returns n unchanged.
 
