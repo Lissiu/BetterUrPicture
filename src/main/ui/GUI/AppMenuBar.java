@@ -1,0 +1,352 @@
+package ui.GUI;
+
+import model.Album;
+import model.Photo;
+import ui.GUI.adapters.LibraryAdapter;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.nio.file.Files;
+import java.time.LocalDate;
+
+
+// Menu bar for the Better Your Picture GUI.
+//Provides File, Photo, and Album menus with actions for
+// loading/saving data, importing photos, and managing albums.
+
+public class AppMenuBar extends JMenuBar {
+    private final MainFrame frame;
+    private final LibraryAdapter adapter;
+
+
+// REQUIRES: frame and adapter are not null
+// MODIFIES: this
+// EFFECTS:  constructs the menu bar and adds the File, Photo,
+//           and Album menus.
+
+    public AppMenuBar(MainFrame frame, LibraryAdapter adapter) {
+        this.frame = frame;
+        this.adapter = adapter;
+
+        add(fileMenu());
+        add(photoMenu());
+        add(albumMenu());
+    }
+
+
+// EFFECTS:  returns a File menu with items for load, save, and exit.
+
+    private JMenu fileMenu() {
+        JMenu m = new JMenu("File");
+        m.add(menuItem("Load...", this::doLoad,
+                KeyStroke.getKeyStroke('O', menuMask())));
+        m.add(menuItem("Save...", e -> {
+            adapter.saveAll();
+            info("Saved.");
+        }, KeyStroke.getKeyStroke('S', menuMask())));
+        m.addSeparator();
+        m.add(menuItem("Exit", e -> System.exit(0),
+                KeyStroke.getKeyStroke('Q', menuMask())));
+        return m;
+    }
+
+// EFFECTS:  returns a Photo menu with items to import photos,
+//           delete a photo, add a photo to an album, and remove it
+//          from an album.
+
+    private JMenu photoMenu() {
+        JMenu m = new JMenu("Photo");
+        m.add(menuItem("Import...", this::doImport,
+                KeyStroke.getKeyStroke('I', menuMask())));
+        m.add(menuItem("Delete Photo", this::doDeletePhoto,
+                KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0)));
+        m.addSeparator();
+        m.add(menuItem("Add to Album", this::doAddToAlbum,
+                KeyStroke.getKeyStroke('A', menuMask())));
+        m.add(menuItem("Remove from Album", this::doRemoveFromAlbum,
+                KeyStroke.getKeyStroke('R', menuMask())));
+        return m;
+    }
+
+
+// EFFECTS:  returns an Album menu with items to create, rename,
+//          and delete albums.
+
+    private JMenu albumMenu() {
+        JMenu m = new JMenu("Album");
+        m.add(menuItem("New Album", this::doNewAlbum,
+                KeyStroke.getKeyStroke('N', menuMask())));
+        m.add(menuItem("Rename Album", this::doRenameAlbum,
+                KeyStroke.getKeyStroke('M', menuMask())));
+        m.add(menuItem("Delete Album", this::doDeleteAlbum, null));
+        return m;
+    }
+
+
+// REQUIRES: text is not null; act is not null
+// EFFECTS:  creates a JMenuItem with the given text and action
+//           listener; sets the accelerator key if ks is not null.
+
+    private JMenuItem menuItem(String text, java.awt.event.ActionListener act, KeyStroke ks) {
+        JMenuItem it = new JMenuItem(text);
+        it.addActionListener(act);
+        if (ks != null) {
+            it.setAccelerator(ks);
+        }
+        return it;
+    }
+
+
+// EFFECTS:  returns the standard menu shortcut mask for the platform
+//           (Command on macOS, Control on Windows/Linux).
+
+    private int menuMask() {
+        return Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+    }
+
+// REQUIRES: s is not null
+// EFFECTS:  shows an information dialog with the given message.
+
+    private void info(String s) {
+        JOptionPane.showMessageDialog(frame, s);
+    }
+
+
+//REQUIRES: s is not null
+// EFFECTS:  shows an error dialog with the given message.
+
+    private void error(String s) {
+        JOptionPane.showMessageDialog(frame, s, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // ====================== Actions ======================
+
+
+// REQUIRES: e is not null
+//MODIFIES: adapter, frame
+// EFFECTS:  loads data from disk using the adapter, refreshes the
+//          main frame, and shows an information dialog.
+
+    private void doLoad(java.awt.event.ActionEvent e) {
+        adapter.loadAll();
+        frame.refreshAll();
+        info("Loaded.");
+    }
+
+
+// REQUIRES: e is not null
+// MODIFIES: adapter, filesystem, frame
+// EFFECTS:  opens a file chooser to select image files, copies them
+//           into a fixed library directory, creates Photo objects in
+//          the adapter, and refreshes the main frame; shows a dialog
+//         with the number of imported photos.
+
+    private void doImport(java.awt.event.ActionEvent e) {
+        JFileChooser fc = new JFileChooser();
+        fc.setMultiSelectionEnabled(true);
+        fc.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+                "Images", "jpg", "jpeg", "png", "gif", "webp"));
+        int res = fc.showOpenDialog(frame);
+        if (res != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        String defCamera = "Unknown";
+        int defISO = 100;
+        double defAperture = 2.8;
+        double defShutter = 0.005;
+        LocalDate defDate = LocalDate.now();
+
+        File libDir = new File(System.getProperty("user.home"), "BetterYourPictureLibrary");
+        libDir.mkdirs();
+
+        int ok = 0;
+        for (File src : fc.getSelectedFiles()) {
+            try {
+                File dst = uniqueName(libDir, src.getName());
+                Files.copy(src.toPath(), dst.toPath());
+
+                String camera = defCamera;
+                int iso = defISO;
+                double aperture = defAperture;
+                double shutter = defShutter;
+                LocalDate date = defDate;
+
+                String photoname = stripExt(src.getName());
+                adapter.addImportedPhoto(photoname, dst.getAbsolutePath(),
+                        camera, iso, aperture, shutter, date);
+                ok++;
+            } catch (Exception ex) {
+                System.err.println("Import failed: " + ex.getMessage());
+            }
+        }
+        frame.refreshAll();
+        info("Imported " + ok + " photo(s).");
+    }
+
+
+// REQUIRES: e is not null
+// MODIFIES: adapter, frame
+// EFFECTS:  if a photo is selected in the main frame, asks the user
+//          for confirmation and removes the photo from the library
+//          and all albums; then refreshes the main frame and shows
+//          a confirmation dialog.
+
+    private void doDeletePhoto(java.awt.event.ActionEvent e) {
+        Photo p = frame.getCurrentPhoto();
+        if (p == null) {
+            info("Select a photo first.");
+            return;
+        }
+        int ok = JOptionPane.showConfirmDialog(frame,
+                "Delete photo \"" + p.getPhotoname() + "\" from library (and all albums)?",
+                "Confirm", JOptionPane.YES_NO_OPTION);
+        if (ok != JOptionPane.YES_OPTION) {
+            return;
+        }
+        adapter.removePhotoFromLibrary(p);
+        frame.refreshAll();
+        info("Deleted.");
+    }
+
+
+// REQUIRES: e is not null
+// MODIFIES: current album in frame
+//EFFECTS:  if both an album and a photo are selected in the main
+//         frame, adds the photo to the album; then refreshes the
+//          main frame and shows a confirmation dialog; if not,
+//          shows an informational dialog.
+
+    private void doAddToAlbum(java.awt.event.ActionEvent e) {
+        Album a = frame.getCurrentAlbum();
+        Photo p = frame.getCurrentPhoto();
+        if (a == null || p == null) {
+            info("Select an album and a photo first.");
+            return;
+        }
+        a.addPhoto(p);
+        frame.refreshAll();
+        info("Added to album.");
+    }
+
+
+// REQUIRES: e is not null
+// MODIFIES: adapter, current album in frame
+// EFFECTS:  if both an album and a photo are selected, removes the
+//          photo from that album using the adapter, refreshes the
+//          main frame, and shows a confirmation dialog; if not,
+//          shows an informational dialog.
+
+    private void doRemoveFromAlbum(java.awt.event.ActionEvent e) {
+        Album a = frame.getCurrentAlbum();
+        Photo p = frame.getCurrentPhoto();
+        if (a == null || p == null) {
+            info("Select an album and a photo first.");
+            return;
+        }
+        adapter.removePhotoFromAlbum(a, p);
+        frame.refreshAll();
+        info("Removed from album.");
+    }
+
+
+// REQUIRES: e is not null
+// MODIFIES: adapter, frame
+// EFFECTS:  prompts the user for a new album name, creates the album
+//          through the adapter, and refreshes the frame; if the name
+//          is invalid or already exists, shows an error dialog.
+
+    private void doNewAlbum(java.awt.event.ActionEvent e) {
+        String name = JOptionPane.showInputDialog(frame, "New album name:");
+        if (name == null || name.isBlank()) {
+            return;
+        }
+        try {
+            adapter.createAlbum(name.trim());
+            frame.refreshAll();
+            info("Album created.");
+        } catch (IllegalArgumentException ex) {
+            error(ex.getMessage());
+        }
+    }
+
+
+// REQUIRES: e is not null
+// MODIFIES: adapter, frame
+// EFFECTS:  if an album is selected, prompts the user for a new name,
+//          renames the album via the adapter, and refreshes the
+//          frame; if the new name is invalid or already exists,
+//          shows an error dialog; if no album is selected, shows an
+//          informational dialog.
+
+    private void doRenameAlbum(java.awt.event.ActionEvent e) {
+        Album a = frame.getCurrentAlbum();
+        if (a == null) {
+            info("Select an album first.");
+            return;
+        }
+        String newName = JOptionPane.showInputDialog(frame, "Rename to:", a.getAlbumName());
+        if (newName == null || newName.isBlank()) {
+            return;
+        }
+        try {
+            adapter.renameAlbum(a, newName.trim());
+            frame.refreshAll();
+            info("Renamed.");
+        } catch (IllegalArgumentException ex) {
+            error(ex.getMessage());
+        }
+    }
+
+
+// REQUIRES: e is not null
+// MODIFIES: adapter, frame
+// EFFECTS:  if an album is selected, asks for confirmation and then
+//           removes it via the adapter and refreshes the frame; if
+//          none is selected, shows an informational dialog.
+
+    private void doDeleteAlbum(java.awt.event.ActionEvent e) {
+        Album a = frame.getCurrentAlbum();
+        if (a == null) {
+            info("Select an album first.");
+            return;
+        }
+        int ok = JOptionPane.showConfirmDialog(frame,
+                "Delete album \"" + a.getAlbumName() + "\" ?",
+                "Confirm", JOptionPane.YES_NO_OPTION);
+        if (ok != JOptionPane.YES_OPTION) {
+            return;
+        }
+        adapter.removeAlbum(a);
+        frame.refreshAll();
+        info("Deleted.");
+    }
+
+
+// REQUIRES: dir and base are not null
+// EFFECTS:  returns a File object in the given directory that is
+//          unique by appending "(k)" before the extension if needed.
+
+    private File uniqueName(File dir, String base) {
+        File dst = new File(dir, base);
+        int k = 1;
+        int dot = base.lastIndexOf('.');
+        String stem = dot >= 0 ? base.substring(0, dot) : base;
+        String ext = dot >= 0 ? base.substring(dot) : "";
+        while (dst.exists()) {
+            dst = new File(dir, stem + "_(" + (k++) + ")" + ext);
+        }
+        return dst;
+    }
+
+
+//REQUIRES: n is not null
+// EFFECTS:  returns n without its extension if it has one, otherwise
+//          returns n unchanged.
+
+    private String stripExt(String n) {
+        int d = n.lastIndexOf('.');
+        return d >= 0 ? n.substring(0, d) : n;
+    }
+}

@@ -1,0 +1,61 @@
+# ================================
+# CPSC 210 Phase 3 .gitignore
+# Prevents large/binary files from entering Git
+# ================================
+
+# --- OS/IDE ---
+.DS_Store
+.idea/
+*.iml
+*.class
+bin/
+out/
+*.log
+
+# --- VSCode ---
+.vscode/
+history/
+*.code-workspace
+
+# --- Maven / Gradle (if any) ---
+target/
+build/
+
+# --- Java compiled output ---
+*.class
+
+# --- User imported photos (DO NOT TRACK IMAGES) ---
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.tiff
+
+# --- Your app’s local photo storage ---
+BetterYourPictureLibrary/
+data/*.jpg
+data/*.jpeg
+data/*.png
+data/*.webp
+data/*.gif
+
+# --- Sidecar JSON files (can track or ignore depending on your preference) ---
+# If you don't want to save paths/reflections into Git:
+data/album_reflections.json
+data/photopaths.json
+
+# If you DO want to track them, comment out above lines.
+
+# --- IntelliJ cache files ---
+*.idea
+*.ipr
+*.iws
+
+# --- Temporary files ---
+*.tmp
+*.bak
+*.swp
+*.swo
+

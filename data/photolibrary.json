@@ -1,45 +1,13 @@
 {
-    "albums": [{
-        "albumName": "w",
-        "photos": [{
-            "date": "2020-10-11",
-            "aperture": 200,
-            "shutterspeed": 10,
-            "reflect": true,
-            "iso": 300,
-            "reflection": {
-                "score": 100,
-                "comments": [],
-                "problems": ["COLOR"]
-            },
-            "camera": "sony",
-            "photoname": "flower"
-        }]
-    }],
+    "albums": [],
     "name": "my library",
-    "photos": [
-        {
-            "date": "2020-10-11",
-            "aperture": 20,
-            "shutterspeed": 10,
-            "reflect": true,
-            "iso": 300,
-            "reflection": {
-                "score": 10,
-                "comments": ["not good"],
-                "problems": ["COMPOSITION"]
-            },
-            "camera": "sony",
-            "photoname": "flower"
-        },
-        {
-            "date": "2020-01-01",
-            "aperture": 2.8,
-            "shutterspeed": 0.01,
-            "reflect": false,
-            "iso": 100,
-            "camera": "sony",
-            "photoname": "sun"
-        }
-    ]
+    "photos": [{
+        "date": "2025-11-11",
+        "aperture": 2.8,
+        "shutterspeed": 0.005,
+        "reflect": false,
+        "iso": 100,
+        "camera": "sony",
+        "photoname": "brid"
+    }]
 }
