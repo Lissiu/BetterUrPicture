@@ -22,23 +22,52 @@
             "photos": []
         },
         {
-            "albumName": "cool",
-            "photos": []
+            "albumName": "food",
+            "photos": [{
+                "date": "2025-11-19",
+                "aperture": 2.8,
+                "shutterspeed": 0.005,
+                "reflect": true,
+                "iso": 100,
+                "reflection": {
+                    "score": 60,
+                    "comments": ["need to adjust"],
+                    "problems": ["COLOR"]
+                },
+                "camera": "Unknown",
+                "photoname": "IMG_5488"
+            }]
         }
     ],
     "name": "my library",
-    "photos": [{
-        "date": "2025-11-18",
-        "aperture": 2.8,
-        "shutterspeed": 0.005,
-        "reflect": true,
-        "iso": 100,
-        "reflection": {
-            "score": 100,
-            "comments": ["great"],
-            "problems": ["OTHER"]
+    "photos": [
+        {
+            "date": "2025-11-18",
+            "aperture": 2.8,
+            "shutterspeed": 0.005,
+            "reflect": true,
+            "iso": 100,
+            "reflection": {
+                "score": 100,
+                "comments": ["great"],
+                "problems": ["OTHER"]
+            },
+            "camera": "Unknown",
+            "photoname": "gound"
         },
-        "camera": "Unknown",
-        "photoname": "gound"
-    }]
+        {
+            "date": "2025-11-19",
+            "aperture": 2.8,
+            "shutterspeed": 0.005,
+            "reflect": true,
+            "iso": 100,
+            "reflection": {
+                "score": 60,
+                "comments": ["need to adjust"],
+                "problems": ["COLOR"]
+            },
+            "camera": "Unknown",
+            "photoname": "IMG_5488"
+        }
+    ]
 }

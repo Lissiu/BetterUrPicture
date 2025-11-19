@@ -8,6 +8,7 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 import java.awt.*;
 
+// Represents a custom renderer for displaying photos in a Swing JList.
 @ExcludeFromJacocoGeneratedReport
 public class PhotoListRenderer extends DefaultListCellRenderer {
 

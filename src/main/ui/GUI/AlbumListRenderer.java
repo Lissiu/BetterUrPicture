@@ -9,6 +9,7 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 import java.awt.*;
 
+// represents a custom cell renderer for displaying album items in a JList.
 @ExcludeFromJacocoGeneratedReport
 public class AlbumListRenderer extends DefaultListCellRenderer {
 

@@ -16,7 +16,6 @@ public class ReflectionPanel extends JPanel {
 
 // MODIFIES: this
 // EFFECTS:  constructs the reflection panel with a text area
-
     public ReflectionPanel() {
         setLayout(new BorderLayout());
         add(new JLabel("Reflection"), BorderLayout.NORTH);
@@ -28,7 +27,6 @@ public class ReflectionPanel extends JPanel {
 
 // MODIFIES: this
 // EFFECTS:  sets the text of the reflection area; null becomes empty.
-
     public void setText(String t) {
         area.setText(t == null ? "" : t);
     }

@@ -15,7 +15,6 @@ public class ImagePreviewPanel extends JPanel {
 
     // MODIFIES: this
     // EFFECTS: constructs the preview panel with a label placeholder.
-
     public ImagePreviewPanel() {
         setLayout(new BorderLayout());
         add(new JLabel("Preview"), BorderLayout.NORTH);
@@ -28,7 +27,6 @@ public class ImagePreviewPanel extends JPanel {
     // "No image"; if the file does not exist or is not a
     // valid image, shows an error message; otherwise loads and
     // scales the image to a fixed height and displays it.
-
     public void showImage(String path) {
         if (path == null || path.trim().isEmpty()) {
             clearImage("No image");

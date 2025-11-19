@@ -22,7 +22,6 @@ public class PhotoListPanel extends JPanel {
 // MODIFIES: this
 // EFFECTS:  constructs the photo list panel with an empty list and
 //          configures the renderer to show photo names.
-
     public PhotoListPanel() {
         setLayout(new BorderLayout());
         add(new JLabel("Photos"), BorderLayout.NORTH);
@@ -36,7 +35,6 @@ public class PhotoListPanel extends JPanel {
 // MODIFIES: this
 // EFFECTS:  clears the current list and fills it with the given
 //          photos.
-
     public void setPhotos(List<Photo> photos, LibraryAdapter adapter) {
         model.clear();
         for (Photo p : photos) {
@@ -46,7 +44,6 @@ public class PhotoListPanel extends JPanel {
 
 
 // EFFECTS:  returns the underlying JList of photos.
-
     public JList<Photo> getList() {
         return list;
     }
