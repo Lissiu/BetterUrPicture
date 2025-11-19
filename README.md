@@ -19,23 +19,33 @@ This application is especially helpful for beginner photographers who are still 
 ---
 # Instructions for End User
 
-- You can view the Photos (Xs) inside an Album (Y) by selecting an album from the left **Albums** panel; the middle **Photos** panel will show all Xs in that Y.
+# Instructions for End User
 
-- You can generate the first required action for the story “adding multiple Xs to a Y” by selecting:
+- You can view the Photos (Xs) inside an Album (Y) by selecting an album in the left **Albums** panel.  
+  The middle **Photos** panel shows all Xs in that Y.
+
+- You can generate the first required action for the user story “adding multiple Xs to a Y” by selecting:
   Photo -> Add to Album  
-  This adds the selected Photo into an Album of your choice.
+  This adds the selected Photo into an Album.
 
 - You can generate the second required action by selecting:
   Photo -> Remove from Album  
-  This removes the selected Photo from the currently chosen Album.
+  This removes the selected Photo from the currently selected Album.
 
-- You can locate the visual component (image preview) by clicking any Photo; the right **Preview** panel will display the actual image.
+- You can add a Reflection to a Photo by selecting:
+  Photo -> Edit Reflection...  
+  This lets you enter a score, choose a problem type, and add comments.  
+  The Reflection will appear in the right **Reflection** panel.
+
+- You can locate the visual component by clicking any Photo;  
+  the right **Preview** panel displays the actual image.
 
 - You can save the application state by selecting:
   File -> Save...
 
 - You can reload the previously saved state by selecting:
   File -> Load...
+
 
 
 
