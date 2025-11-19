@@ -1,4 +1,4 @@
-package ui.guii;
+package ui.gui;
 
 import javax.swing.SwingUtilities;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;

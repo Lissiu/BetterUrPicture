@@ -1,7 +1,7 @@
-package ui.guii;
+package ui.gui;
 
 import model.Album;
-import ui.guii.adapters.LibraryAdapter;
+import ui.gui.adapters.LibraryAdapter;
 
 import javax.swing.*;
 

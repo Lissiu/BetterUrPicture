@@ -1,4 +1,4 @@
-package ui.guii.adapters;
+package ui.gui.adapters;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -1,10 +1,10 @@
-package ui.guii;
+package ui.gui;
 
 import model.Album;
 import model.Photo;
 import model.ProblemType;
 import model.Reflection;
-import ui.guii.adapters.LibraryAdapter;
+import ui.gui.adapters.LibraryAdapter;
 
 import java.util.List;
 

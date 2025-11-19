@@ -1,9 +1,9 @@
-package ui.guii;
+package ui.gui;
 
 import model.Album;
 import model.Photo;
 import model.Reflection;
-import ui.guii.adapters.LibraryAdapter;
+import ui.gui.adapters.LibraryAdapter;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

@@ -1,4 +1,4 @@
-package ui.guii.adapters;
+package ui.gui.adapters;
 
 import model.Album;
 import model.Photo;

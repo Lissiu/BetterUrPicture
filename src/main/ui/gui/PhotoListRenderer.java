@@ -1,4 +1,4 @@
-package ui.guii;
+package ui.gui;
 
 import model.Photo;
 
