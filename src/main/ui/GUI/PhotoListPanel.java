@@ -27,19 +27,7 @@ public class PhotoListPanel extends JPanel {
         setLayout(new BorderLayout());
         add(new JLabel("Photos"), BorderLayout.NORTH);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setCellRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                    JList<?> l, Object value, int index,
-                    boolean isSelected, boolean cellHasFocus) {
-                JLabel lbl = (JLabel) super.getListCellRendererComponent(
-                        l, value, index, isSelected, cellHasFocus);
-                if (value instanceof Photo) {
-                    lbl.setText(((Photo) value).getPhotoname());
-                }
-                return lbl;
-            }
-        });
+        list.setCellRenderer(new PhotoListRenderer());
         add(new JScrollPane(list), BorderLayout.CENTER);
         setPreferredSize(new Dimension(260, 350));
     }

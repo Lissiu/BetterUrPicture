@@ -5,7 +5,6 @@ import javax.swing.*;
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 import java.awt.*;
-import java.util.function.Consumer;
 
 
 // Panel that shows and optionally edits a single block of text for
@@ -13,14 +12,10 @@ import java.util.function.Consumer;
 @ExcludeFromJacocoGeneratedReport
 public class ReflectionPanel extends JPanel {
     private final JTextArea area = new JTextArea(8, 40);
-    private final JButton save = new JButton("Save Reflection");
-    private Consumer<String> onSave = t -> {
-    };
 
 
 // MODIFIES: this
-// EFFECTS:  constructs the reflection panel with a text area and a
-//          save button; by default the save handler does nothing.
+// EFFECTS:  constructs the reflection panel with a text area
 
     public ReflectionPanel() {
         setLayout(new BorderLayout());
@@ -28,8 +23,6 @@ public class ReflectionPanel extends JPanel {
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
         add(new JScrollPane(area), BorderLayout.CENTER);
-        save.addActionListener(e -> onSave.accept(area.getText()));
-        add(save, BorderLayout.SOUTH);
     }
 
 
@@ -48,16 +41,7 @@ public class ReflectionPanel extends JPanel {
 
     public void setEditable(boolean editable) {
         area.setEditable(editable);
-        save.setEnabled(editable);
     }
 
 
-
-// MODIFIES: this
-// EFFECTS:  installs a callback that is invoked when the save button
-//          is clicked, passing the current text content.
-
-    public void onSave(Consumer<String> c) {
-        this.onSave = c;
-    }
 }

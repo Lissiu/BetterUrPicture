@@ -2,6 +2,7 @@ package ui.gui;
 
 import model.Album;
 import model.Photo;
+import model.Reflection;
 import ui.gui.adapters.LibraryAdapter;
 
 import javax.swing.*;
@@ -24,7 +25,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
     private final PhotoListPanel photoList = new PhotoListPanel();
     private final ImagePreviewPanel preview = new ImagePreviewPanel();
     private final ReflectionPanel reflection = new ReflectionPanel();
-    private final Toolbar toolbar = new Toolbar(this, adapter);
 
     private Album currentAlbum = null;
     private Photo currentPhoto = null;
@@ -38,7 +38,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1100, 700));
         setLayout(new BorderLayout());
-        add(toolbar, BorderLayout.NORTH);
 
         JSplitPane left = new JSplitPane(JSplitPane.VERTICAL_SPLIT, albumList, photoList);
         left.setResizeWeight(0.5);
@@ -51,11 +50,9 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         albumList.getList().addListSelectionListener(this);
         photoList.getList().addListSelectionListener(this);
 
-
-
         setJMenuBar(new AppMenuBar(this, adapter));
 
-        adapter.loadAll();
+        
         refreshAll();
         pack();
         setLocationRelativeTo(null);
@@ -101,11 +98,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
     // MODIFIES: this
     // EFFECTS: responds to selection changes in the album or photo list.
-    // When an album is selected, updates the photo list and
-    // album reflection text; when "(All Photos)" is selected,
-    // shows all photos and clears the reflection; when a photo
-    // is selected, updates the image preview and shows that
-    // photo's reflection in read-only form.
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
@@ -113,75 +105,107 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         }
         Object src = e.getSource();
         if (src == albumList.getList()) {
-            Object value = albumList.getList().getSelectedValue();
-            if (value instanceof String
-                    && AlbumListPanel.ALL_PHOTOS_ITEM.equals(value)) {
-                photoList.setPhotos(adapter.allPhotos(), adapter);
-                reflection.setText("");
-                reflection.setEditable(false);
-
-            } else if (value instanceof Album) {
-                currentAlbum = (Album) value;
-                photoList.setPhotos(currentAlbum.getPhotos(), adapter);
-
-                reflection.setText(adapter.getAlbumReflection(currentAlbum));
-                reflection.setEditable(true);
-            }
-    
+            handleAlbumSelection();
         } else if (src == photoList.getList()) {
-            Photo p = (Photo) photoList.getList().getSelectedValue();
-            currentPhoto = p;
-    
-            if (p == null) {
-                preview.showImage(null);
-                reflection.setText("");
-                return;
-            }
-    
-            String path = adapter.getPhotoPath(p);
-            if (path == null || path.trim().isEmpty() || !(new File(path).exists())) {
-                path = chooseImageFile();
-                if (path != null && !path.trim().isEmpty()) {
-                    adapter.setPhotoPath(p, path);
-                }
-            }
-            preview.showImage(path);
-    
-            reflection.setText(renderPhotoReflection(p));
-            reflection.setEditable(false);
+            handlePhotoSelection();
         }
     }
-    
+
+    // MODIFIES: this
+    // EFFECTS: handles selection changes in the album list.
+    private void handleAlbumSelection() {
+        Object value = albumList.getList().getSelectedValue();
+
+        if (value instanceof String
+                && AlbumListPanel.ALL_PHOTOS_ITEM.equals(value)) {
+            currentAlbum = null;
+            photoList.setPhotos(adapter.allPhotos(), adapter);
+            reflection.setText("");
+            reflection.setEditable(false);
+        } else if (value instanceof Album) {
+            currentAlbum = (Album) value;
+            photoList.setPhotos(currentAlbum.getPhotos(), adapter);
+            reflection.setText(adapter.getAlbumReflection(currentAlbum));
+            reflection.setEditable(true);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles selection changes in the photo list.
+    private void handlePhotoSelection() {
+        Photo p = (Photo) photoList.getList().getSelectedValue();
+        currentPhoto = p;
+
+        if (p == null) {
+            preview.showImage(null);
+            reflection.setText("");
+            return;
+        }
+
+        String path = adapter.getPhotoPath(p);
+        if (path == null || path.trim().isEmpty() || !(new File(path).exists())) {
+            path = chooseImageFile();
+            if (path != null && !path.trim().isEmpty()) {
+                adapter.setPhotoPath(p, path);
+            }
+        }
+        preview.showImage(path);
+
+        reflection.setText(renderPhotoReflection(p));
+        reflection.setEditable(false);
+    }
 
     // EFFECTS: builds a human readable text summary of the photo's
     // reflection, including score, problems, and comments; if
     // there is no reflection, returns a message indicating that.
     private String renderPhotoReflection(Photo p) {
-        model.Reflection r = p.getReflection();
+        Reflection r = p.getReflection();
         if (r == null) {
             return "(No reflection for this photo)";
         }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Score: ").append(r.getScore()).append("\n");
-        sb.append("Problems: ");
+        sb.append(makeScoreLine(r));
+        sb.append(makeProblemsLine(r));
+        sb.append(makeCommentsBlock(r));
+
+        return sb.toString();
+    }
+
+    // EFFECTS: returns a line like "Score: 85\n"
+    private String makeScoreLine(Reflection r) {
+        return "Score: " + r.getScore() + "\n";
+    }
+
+    // EFFECTS: returns a line like "Problems: A, B\n"
+    private String makeProblemsLine(Reflection r) {
+        StringBuilder sb = new StringBuilder("Problems: ");
         if (r.getProblems().isEmpty()) {
-            sb.append("(none)");
-        } else {
-            for (int i = 0; i < r.getProblems().size(); i++) {
-                sb.append(r.getProblems().get(i).name());
-                if (i < r.getProblems().size() - 1) {
-                    sb.append(", ");
-                }
+            sb.append("(none)\n");
+            return sb.toString();
+        }
+        for (int i = 0; i < r.getProblems().size(); i++) {
+            sb.append(r.getProblems().get(i).name());
+            if (i < r.getProblems().size() - 1) {
+                sb.append(", ");
             }
         }
-        sb.append("\nComments:\n");
+        sb.append("\n");
+        return sb.toString();
+    }
+
+    // EFFECTS: returns a block:
+    // Comments:
+    // - xxx
+    // - yyy
+    private String makeCommentsBlock(Reflection r) {
+        StringBuilder sb = new StringBuilder("Comments:\n");
         if (r.getComments().isEmpty()) {
             sb.append("(none)");
-        } else {
-            for (String c : r.getComments()) {
-                sb.append("- ").append(c).append("\n");
-            }
+            return sb.toString();
+        }
+        for (String c : r.getComments()) {
+            sb.append("- ").append(c).append("\n");
         }
         return sb.toString();
     }

@@ -99,19 +99,24 @@ public class SidecarStores {
             if (json.startsWith("{") && json.endsWith("}")) {
                 json = json.substring(1, json.length() - 1).trim();
                 if (!json.isEmpty()) {
-                    for (String kv : json.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")) {
-                        String[] arr = kv.split(":", 2);
-                        if (arr.length == 2) {
-                            String k = arr[0].trim().replaceAll("^\"|\"$", "");
-                            String v = arr[1].trim().replaceAll("^\"|\"$", "");
-                            v = v.replace("\\n", "\n");
-                            map.put(k, v);
-                        }
-                    }
+                    fillMapFromJson(json, map);
                 }
             }
         } catch (IOException ignored) {
-            //ignored
+            // ignored
+        }
+    }
+
+    private void fillMapFromJson(String json, Map<String, String> map) {
+        String[] pairs = json.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+        for (String kv : pairs) {
+            String[] arr = kv.split(":", 2);
+            if (arr.length == 2) {
+                String k = arr[0].trim().replaceAll("^\"|\"$", "");
+                String v = arr[1].trim().replaceAll("^\"|\"$", "");
+                v = v.replace("\\n", "\n");
+                map.put(k, v);
+            }
         }
     }
 
