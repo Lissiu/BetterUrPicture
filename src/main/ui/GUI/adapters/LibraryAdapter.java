@@ -72,39 +72,7 @@ public class LibraryAdapter {
         sidecars.removePhotoPath(p.getPhotoname());
     }
 
-    // Album reflection sidecar
 
-
-
-// EFFECTS:  returns the stored reflection text for this album name,
-//          or the empty string if none is stored.
-    public String getAlbumReflection(Album a) {
-        return sidecars.getAlbumReflection(a.getAlbumName());
-    }
-
-
-
-// MODIFIES: sidecars
-// EFFECTS:  stores the given reflection text for this album name.
-    public void setAlbumReflection(Album a, String txt) {
-        sidecars.putAlbumReflection(a.getAlbumName(), txt);
-    }
-
-
-
-// MODIFIES: sidecars
-// EFFECTS:  removes any stored reflection for this album name.
-    public void removeAlbumReflection(Album a) {
-        sidecars.removeAlbumReflection(a.getAlbumName());
-    }
-
-
-// MODIFIES: sidecars
-// EFFECTS:  if there is a reflection stored under oldName,
-//          moves it to newName.
-    public void renameAlbumKey(String oldName, String newName) {
-        sidecars.renameAlbumKey(oldName, newName);
-    }
 
 
 // REQUIRES: iso > 0, aperture > 0, shutter > 0
@@ -120,7 +88,7 @@ public class LibraryAdapter {
         return p;
     }
 
-    // Album basic operations
+
 
 
 // REQUIRES: trimmed length > 0 and no existing album has the same name ignoring case
@@ -143,10 +111,8 @@ public class LibraryAdapter {
 
 
 // MODIFIES: lib, sidecars
-// EFFECTS:  removes the album from the library and deletes its stored
-//           reflection from the sidecar.
+// EFFECTS:  removes the album from the library.
     public void removeAlbum(Album a) {
-        removeAlbumReflection(a);
         lib.removeAlbum(a);
     }
 
@@ -209,8 +175,7 @@ public class LibraryAdapter {
 // REQUIRES: trimmed length > 0; no other album has the same name ignoring case
 // MODIFIES: lib, sidecars
 // EFFECTS: creates a new album with the new name and the same photos,
-//          replaces the old album in the library list, and updates the
-//          album reflection key in the sidecar; throws
+//          replaces the old album in the library list; throws
 //          IllegalArgumentException if the new name is invalid or
 //          already in use.
     public void renameAlbum(Album album, String newName) {
@@ -238,8 +203,6 @@ public class LibraryAdapter {
         } else {
             list.add(repl);
         }
-
-        renameAlbumKey(album.getAlbumName(), nn);
     }
 }
 

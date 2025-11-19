@@ -1,21 +1,31 @@
 {
-    "albums": [{
-        "albumName": "school",
-        "photos": [{
-            "date": "2025-11-18",
-            "aperture": 2.8,
-            "shutterspeed": 0.005,
-            "reflect": true,
-            "iso": 100,
-            "reflection": {
-                "score": 75,
-                "comments": [],
-                "problems": ["COLOR"]
-            },
-            "camera": "Unknown",
-            "photoname": "green"
-        }]
-    }],
+    "albums": [
+        {
+            "albumName": "school",
+            "photos": [{
+                "date": "2025-11-18",
+                "aperture": 2.8,
+                "shutterspeed": 0.005,
+                "reflect": true,
+                "iso": 100,
+                "reflection": {
+                    "score": 100,
+                    "comments": ["great"],
+                    "problems": ["OTHER"]
+                },
+                "camera": "Unknown",
+                "photoname": "gound"
+            }]
+        },
+        {
+            "albumName": "nature",
+            "photos": []
+        },
+        {
+            "albumName": "cool",
+            "photos": []
+        }
+    ],
     "name": "my library",
     "photos": [{
         "date": "2025-11-18",
@@ -24,11 +34,11 @@
         "reflect": true,
         "iso": 100,
         "reflection": {
-            "score": 75,
-            "comments": [],
-            "problems": ["COLOR"]
+            "score": 100,
+            "comments": ["great"],
+            "problems": ["OTHER"]
         },
         "camera": "Unknown",
-        "photoname": "green"
+        "photoname": "gound"
     }]
 }

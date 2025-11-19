@@ -17,7 +17,6 @@ This application is especially helpful for beginner photographers who are still 
 - As a user, I want to be given the option to load my photo library from file.
 
 ---
-# Instructions for End User
 
 # Instructions for End User
 

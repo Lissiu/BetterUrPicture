@@ -43,7 +43,7 @@ public class AlbumListPanel extends JPanel {
         list.setCellRenderer(new AlbumListRenderer(adapter));
     }
 
-    // REQUIRES: list has at least one element
+
     // MODIFIES: this
     // EFFECTS: selects the "(All Photos)" entry at index 0.
     public void selectAllPhotosItem() {

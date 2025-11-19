@@ -12,10 +12,9 @@ import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 @ExcludeFromJacocoGeneratedReport
 public class SidecarStores {
     private static final String PATHS_FILE = "./data/photopaths.json";
-    private static final String ALBUM_REFL_FILE = "./data/album_reflections.json";
 
     private final Map<String, String> photoPath = new HashMap<>();
-    private final Map<String, String> albumRefl = new HashMap<>();
+
 
     // EFFECTS: returns the stored path for the given photo name, or
     // the empty string if none is stored.
@@ -35,35 +34,7 @@ public class SidecarStores {
         photoPath.remove(photoName);
     }
 
-    // EFFECTS: returns the stored reflection text for the album, or
-    // the empty string if none is stored.
-    public String getAlbumReflection(String albumName) {
-        return albumRefl.getOrDefault(albumName, "");
-    }
 
-    // MODIFIES: this
-    // EFFECTS: stores the given reflection text for the album name;
-    // null text is stored as an empty string.
-    public void putAlbumReflection(String albumName, String text) {
-        albumRefl.put(albumName, text == null ? "" : text);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: removes any reflection entry for the given album name.
-    public void removeAlbumReflection(String albumName) {
-        albumRefl.remove(albumName);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: if a reflection is stored under oldName, moves it to
-    // newName; otherwise does nothing.
-    public void renameAlbumKey(String oldName, String newName) {
-        if (oldName == null || newName == null || !albumRefl.containsKey(oldName)) {
-            return;
-        }
-        String v = albumRefl.remove(oldName);
-        albumRefl.put(newName, v);
-    }
 
     // MODIFIES: this
     // EFFECTS: loads photoPath and albumRefl maps from their JSON files
@@ -71,7 +42,6 @@ public class SidecarStores {
     // corresponding map is left empty.
     public void loadAll() {
         loadJson(PATHS_FILE, photoPath);
-        loadJson(ALBUM_REFL_FILE, albumRefl);
     }
 
     // MODIFIES: filesystem
@@ -79,7 +49,7 @@ public class SidecarStores {
     // files; IOExceptions are ignored.
     public void saveAll() {
         saveJson(PATHS_FILE, photoPath);
-        saveJson(ALBUM_REFL_FILE, albumRefl);
+
     }
 
     // MODIFIES: map

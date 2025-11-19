@@ -77,7 +77,8 @@ public class AppMenuBar extends JMenuBar {
                 KeyStroke.getKeyStroke('N', menuMask())));
         m.add(menuItem("Rename Album", this::doRenameAlbum,
                 KeyStroke.getKeyStroke('M', menuMask())));
-        m.add(menuItem("Delete Album", this::doDeleteAlbum, null));
+        m.add(menuItem("Delete Album", this::doDeleteAlbum,
+                KeyStroke.getKeyStroke('D', menuMask())));
         return m;
     }
 
@@ -213,6 +214,7 @@ public class AppMenuBar extends JMenuBar {
         info("Saved.");
     }
 
+    // helper method
     private Integer askScore() {
         String s = JOptionPane.showInputDialog(frame, "Score (0-100):");
         if (s == null) {
@@ -227,6 +229,7 @@ public class AppMenuBar extends JMenuBar {
         }
     }
 
+    // helper method
     private ProblemType askProblemType() {
         return (ProblemType) JOptionPane.showInputDialog(
                 frame,
@@ -238,6 +241,7 @@ public class AppMenuBar extends JMenuBar {
                 null);
     }
 
+    // helper method
     private String askComment() {
         return JOptionPane.showInputDialog(frame, "Comment (optional):");
     }
@@ -285,7 +289,6 @@ public class AppMenuBar extends JMenuBar {
         return true;
     }
 
-
     // EFFECTS: returns array of album names from the albums list
     private String[] getAlbumNames(List<Album> albums) {
         String[] names = new String[albums.size()];
@@ -294,7 +297,6 @@ public class AppMenuBar extends JMenuBar {
         }
         return names;
     }
-
 
     // EFFECTS: shows dialog to select album, returns selected album name
     // or null if cancelled

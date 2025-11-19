@@ -125,7 +125,6 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         } else if (value instanceof Album) {
             currentAlbum = (Album) value;
             photoList.setPhotos(currentAlbum.getPhotos(), adapter);
-            reflection.setText(adapter.getAlbumReflection(currentAlbum));
             reflection.setEditable(true);
         }
     }
