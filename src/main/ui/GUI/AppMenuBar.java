@@ -242,44 +242,84 @@ public class AppMenuBar extends JMenuBar {
         return JOptionPane.showInputDialog(frame, "Comment (optional):");
     }
 
-    // MODIFIES: some album in adapter.albums()
-    // EFFECTS: if a photo is selected and the user chooses an album,
-    // adds the photo to that album, refreshes the frame,
-    // and shows a message; otherwise shows a message and does nothing.
+    // EFFECTS: Handles the action of adding the current photo to an album.
+    // If successful, refreshes the frame and shows confirmation message.
     private void doAddToAlbum(java.awt.event.ActionEvent e) {
-        Photo p = frame.getCurrentPhoto();
-        if (p == null) {
-            info("Select a photo first.");
+        Photo currentPhoto = frame.getCurrentPhoto();
+        if (!isPhotoSelected(currentPhoto)) {
             return;
         }
+
         List<Album> albums = adapter.albums();
+        if (!hasAlbums(albums)) {
+            return;
+        }
+
+        String selectedAlbumName = showAlbumSelectionDialog(albums);
+        if (selectedAlbumName == null) {
+            return;
+        }
+
+        addPhotoToAlbum(currentPhoto, selectedAlbumName, albums);
+        frame.refreshAll();
+        info("Added to album.");
+    }
+
+    // EFFECTS: Checks if a photo is currently selected.
+    // return true if photo is selected, false otherwise and shows message
+    private boolean isPhotoSelected(Photo photo) {
+        if (photo == null) {
+            info("Select a photo first.");
+            return false;
+        }
+        return true;
+    }
+
+    // EFFECTS: returns true if albums list is not empty, otherwise shows
+    // "Create an album first." message and returns false
+    private boolean hasAlbums(List<Album> albums) {
         if (albums.isEmpty()) {
             info("Create an album first.");
-            return;
+            return false;
         }
+        return true;
+    }
+
+
+    // EFFECTS: returns array of album names from the albums list
+    private String[] getAlbumNames(List<Album> albums) {
         String[] names = new String[albums.size()];
         for (int i = 0; i < albums.size(); i++) {
             names[i] = albums.get(i).getAlbumName();
         }
-        String choice = (String) JOptionPane.showInputDialog(
+        return names;
+    }
+
+
+    // EFFECTS: shows dialog to select album, returns selected album name
+    // or null if cancelled
+    private String showAlbumSelectionDialog(List<Album> albums) {
+        String[] albumNames = getAlbumNames(albums);
+        String selectedAlbum = (String) JOptionPane.showInputDialog(
                 frame,
                 "Add to which album?",
                 "Add to Album",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
-                names,
-                names[0]);
-        if (choice == null) {
-            return;
-        }
-        for (Album a : albums) {
-            if (a.getAlbumName().equals(choice)) {
-                a.addPhoto(p);
+                albumNames,
+                albumNames[0]);
+        return selectedAlbum;
+    }
+
+    // MODIFIES: the album with matching name in albums list
+    // EFFECTS: adds the photo to the album with the specified name
+    private void addPhotoToAlbum(Photo photo, String albumName, List<Album> albums) {
+        for (Album album : albums) {
+            if (album.getAlbumName().equals(albumName)) {
+                album.addPhoto(photo);
                 break;
             }
         }
-        frame.refreshAll();
-        info("Added to album.");
     }
 
     // MODIFIES: adapter, current album in frame

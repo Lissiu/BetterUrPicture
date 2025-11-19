@@ -19,13 +19,23 @@ This application is especially helpful for beginner photographers who are still 
 ---
 # Instructions for End User
 
-- You can view the panel that displays the pictures that have already been added to the library by opening the app. The left panel (“Pictures”) lists all pictures currently in the selected album or libarary.
-- You can generate the first required action related to the user story "adding multiple pictures to a album by by clicking Add Picture on the top toolbar, selecting an image file, and filling in its information and reflections in the prompts.
-- You can generate the second required action related to the user story adding multiple pictures to a library by clicking Filter…, entering a problrmtype keyword (e.g., “happy”), and confirming. Click Clear Filter to restore the full list.
-- You can save the state of my application by clicking Save… on the toolbar and choosing a destination .json file.
-- You can reload the state of my application by clicking Load… on the toolbar and selecting a previously saved .json file.
+- You can view the Photos (Xs) inside an Album (Y) by selecting an album from the left **Albums** panel; the middle **Photos** panel will show all Xs in that Y.
 
+- You can generate the first required action for the story “adding multiple Xs to a Y” by selecting:
+  Photo -> Add to Album  
+  This adds the selected Photo into an Album of your choice.
 
+- You can generate the second required action by selecting:
+  Photo -> Remove from Album  
+  This removes the selected Photo from the currently chosen Album.
+
+- You can locate the visual component (image preview) by clicking any Photo; the right **Preview** panel will display the actual image.
+
+- You can save the application state by selecting:
+  File -> Save...
+
+- You can reload the previously saved state by selecting:
+  File -> Load...
 
 
 
