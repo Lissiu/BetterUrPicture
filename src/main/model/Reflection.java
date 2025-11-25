@@ -22,6 +22,7 @@ public class Reflection {
     // EFFECTS: add given problemype to the photo reflection
     public void addProblemType(ProblemType p) {
         this.problems.add(p);
+        
     }
 
     // MODIFIES: this

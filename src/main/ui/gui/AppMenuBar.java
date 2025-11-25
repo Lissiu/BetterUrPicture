@@ -46,7 +46,7 @@ public class AppMenuBar extends JMenuBar {
             info("Saved.");
         }, KeyStroke.getKeyStroke('S', menuMask())));
         m.addSeparator();
-        m.add(menuItem("Exit", e -> System.exit(0),
+        m.add(menuItem("Exit", e -> frame.quit(),
                 KeyStroke.getKeyStroke('Q', menuMask())));
         return m;
     }

@@ -5,6 +5,11 @@ import model.Photo;
 import model.Reflection;
 import ui.gui.adapters.LibraryAdapter;
 
+import model.Event;
+import model.EventLog;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -52,7 +57,13 @@ public class MainFrame extends JFrame implements ListSelectionListener {
 
         setJMenuBar(new AppMenuBar(this, adapter));
 
-        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLogAndExit();
+            }
+        });
+
         refreshAll();
         pack();
         setLocationRelativeTo(null);
@@ -218,4 +229,17 @@ public class MainFrame extends JFrame implements ListSelectionListener {
         reflection.setEditable(false);
     }
 
+    // EFFECTS: prints all events that have been logged since the application
+    // started to the console, then exits the program.
+    private void printLogAndExit() {
+        for (Event ev : EventLog.getInstance()) {
+            System.out.println(ev.toString());
+        }
+        System.exit(0);
+    }
+
+    // EFFECTS: allows "Quit" menu item to trigger the same quit behaviour.
+    public void quit() {
+        printLogAndExit();
+    }
 }

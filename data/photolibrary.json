@@ -68,6 +68,20 @@
             },
             "camera": "Unknown",
             "photoname": "IMG_5488"
+        },
+        {
+            "date": "2025-11-25",
+            "aperture": 2.8,
+            "shutterspeed": 0.005,
+            "reflect": true,
+            "iso": 100,
+            "reflection": {
+                "score": 90,
+                "comments": ["good"],
+                "problems": ["OTHER"]
+            },
+            "camera": "Unknown",
+            "photoname": "IMG_5713"
         }
     ]
 }

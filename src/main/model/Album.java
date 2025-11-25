@@ -24,6 +24,9 @@ public class Album implements Writable {
     public void addPhoto(Photo p) {
         if (!this.photos.contains(p)) {
             this.photos.add(p);
+            EventLog.getInstance().logEvent(
+                    new Event("Photo " + p.getPhotoname() + " added to album " + getAlbumName()));
+            ;
         }
     }
 
@@ -31,13 +34,14 @@ public class Album implements Writable {
     // EFFECTS: remove the given photo from the photo library if contains
     public void removePhoto(Photo p) {
         this.photos.remove(p);
+        EventLog.getInstance().logEvent(
+                new Event("Photo " + p.getPhotoname() + " removed from album " + getAlbumName()));
 
     }
 
     public String getAlbumName() {
         return albumName;
     }
-
 
     public ArrayList<Photo> getPhotos() {
         return photos;

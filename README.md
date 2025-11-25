@@ -46,5 +46,26 @@ This application is especially helpful for beginner photographers who are still 
   File -> Load...
 
 
+# Phase 4: Task 2
+Tue Nov 25 15:02:20 PST 2025
+Add photo to library: IMG_5610
+
+Tue Nov 25 15:02:42 PST 2025
+Add album: trees
+
+Tue Nov 25 15:02:50 PST 2025
+Photo IMG_5610 added to album trees
+
+Tue Nov 25 15:03:12 PST 2025
+Reflection updated for photo IMG_5610
+
+Tue Nov 25 15:03:27 PST 2025
+Add photo to library: water
+
+Tue Nov 25 15:03:42 PST 2025
+Photo water added to album trees
+
+Tue Nov 25 15:03:51 PST 2025
+Photo water removed from album trees
 
 

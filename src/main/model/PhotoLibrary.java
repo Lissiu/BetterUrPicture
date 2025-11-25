@@ -27,6 +27,7 @@ public class PhotoLibrary implements Writable {
     public void addPhoto(Photo p) {
         if (!this.photos.contains(p)) {
             this.photos.add(p);
+            EventLog.getInstance().logEvent(new Event("Add photo to library: " + p.getPhotoname()));
         }
     }
 
@@ -34,6 +35,7 @@ public class PhotoLibrary implements Writable {
     // EFFECTS: remove the given photo from the photo library if contains
     public void removePhoto(Photo p) {
         this.photos.remove(p);
+        EventLog.getInstance().logEvent(new Event("Remove photo frim library: " + p.getPhotoname()));
 
     }
 
@@ -43,6 +45,7 @@ public class PhotoLibrary implements Writable {
     public void addAlbum(Album a) {
         if (!this.albums.contains(a)) {
             this.albums.add(a);
+            EventLog.getInstance().logEvent(new Event("Add album: " + a.getAlbumName()));
         }
     }
 
@@ -50,6 +53,7 @@ public class PhotoLibrary implements Writable {
     // EFFECTS: remove the given album from the photo library if contains
     public void removeAlbum(Album a) {
         this.albums.remove(a);
+        EventLog.getInstance().logEvent(new Event("Remove album: " + a.getAlbumName()));
 
     }
 

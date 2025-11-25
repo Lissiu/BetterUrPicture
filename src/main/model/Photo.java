@@ -38,6 +38,8 @@ public class Photo implements Writable {
     public void setReflection(Reflection reflection) {
         this.reflection = reflection;
         setReflect(true);
+        EventLog.getInstance().logEvent(
+                new Event("Reflection updated for photo " + getPhotoname()));
 
     }
 
