@@ -9,7 +9,7 @@ import persistence.Writable;
 
 // the collection of all photos and albums
 public class PhotoLibrary implements Writable {
-    String libName;
+    private String libName;
     private ArrayList<Photo> photos;
     private ArrayList<Album> albums;
 
